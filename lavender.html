@@ -5,12 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>404 — The page has been laid to rest.</title>
 <meta name="robots" content="noindex">
-<meta name="description" content="A 404 page in the spirit of Lavender Town: a quiet haunted tower, a soft ghost, the page has passed on.">
 <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%231a0d24'/><path d='M5 5h6v5h-1v1h-1v1H7v-1H6v-1H5z' fill='%23f0d4f8'/><rect x='6' y='7' width='1' height='1' fill='%231a0d24'/><rect x='9' y='7' width='1' height='1' fill='%231a0d24'/></svg>">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Creepster&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -21,162 +20,106 @@
   --lav-4: #b487d4;
   --lav-5: #f0d4f8;
   --pink:  #ff84b8;
-  --bone:  #e6dcc9;
   --grave: #2a1838;
 }
 
-* { box-sizing: border-box; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
-  margin: 0; padding: 0; min-height: 100%;
+  height: 100%;
   background: var(--lav-0);
   color: var(--lav-5);
-  font-family: 'VT323', monospace;
-  font-size: 22px;
+  font-family: 'Press Start 2P', monospace;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
-  overflow-x: hidden;
+  overflow: hidden;
 }
+body { display: grid; place-items: center; }
 
-body {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  min-height: 100vh;
-  padding: 30px 14px 60px;
-  position: relative;
-}
-
-/* heavy vignette + scanlines */
-body::before {
-  content: ""; position: fixed; inset: 0;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(0,0,0,0.18) 0 1px,
-    transparent 1px 3px);
-  pointer-events: none;
-  z-index: 80;
-  animation: scan 14s linear infinite;
-}
-@keyframes scan { to { background-position: 0 6px; } }
-body::after {
-  content: ""; position: fixed; inset: 0;
-  background: radial-gradient(ellipse at center, transparent 38%, rgba(0,0,0,0.85) 100%);
-  pointer-events: none; z-index: 81;
-}
-
-/* ── stage ──────────────────────────────────────────────────────────── */
-.stage {
-  width: min(820px, 96vw);
-  aspect-ratio: 16 / 11;
+.scene {
+  width: 100vmin;
+  height: 90vmin;
+  background: var(--lav-0);
+  border: 8px solid var(--lav-2);
   position: relative;
   overflow: hidden;
-  border-radius: 10px;
-  background: linear-gradient(to bottom,
-    var(--lav-0)  0%,
-    var(--lav-1) 30%,
-    var(--lav-2) 70%,
-    var(--lav-3) 100%);
-  box-shadow:
-    inset 0 0 100px rgba(10,5,20,0.85),
-    0 0 0 4px var(--lav-1),
-    0 22px 60px rgba(0,0,0,0.7);
+  display: grid;
+  grid-template-rows: 1fr 24%;
 }
 
-/* drifting purple fog */
-.fog {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse at 25% 60%, rgba(180,135,212,0.18) 0%, transparent 40%),
-    radial-gradient(ellipse at 75% 40%, rgba(255,132,184,0.10) 0%, transparent 35%),
-    radial-gradient(ellipse at 50% 90%, rgba(106,55,160,0.25) 0%, transparent 50%);
-  animation: fog 22s ease-in-out infinite alternate;
-}
-@keyframes fog {
-  0%   { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(-20px, 8px) scale(1.07); }
+.sky {
+  position: relative;
+  background: var(--lav-1);
+  border-bottom: 4px solid var(--lav-2);
+  overflow: hidden;
 }
 
-/* far stars (faint) */
-.stars { position: absolute; inset: 0; pointer-events: none; }
+/* stars: solid pixels, no glow */
 .star {
   position: absolute;
   width: 1px; height: 1px;
   background: var(--lav-5);
-  opacity: 0.4;
-  animation: twinkle-soft 4s ease-in-out infinite;
+  opacity: 0.6;
+  animation: twk 2s steps(2) infinite;
 }
 .star.b { width: 2px; height: 2px; }
-@keyframes twinkle-soft {
-  0%, 100% { opacity: 0.15; }
-  50%      { opacity: 0.55; }
+@keyframes twk {
+  0%, 100% { opacity: 0.7; }
+  50%      { opacity: 0.2; }
 }
 
-/* ── distant Pokémon-Tower-style silhouette ─────────────────────────── */
+/* tower silhouette */
 .tower {
   position: absolute;
-  bottom: 22%;
+  bottom: 16%;
   left: 50%;
   transform: translateX(-50%);
   width: 38%;
-  filter: drop-shadow(0 0 16px rgba(106,55,160,0.5));
 }
 .tower svg { width: 100%; height: auto; display: block; shape-rendering: crispEdges; }
 
-/* tower windows blink at different cadences */
 .tw-win {
-  fill: var(--bone);
-  animation: tw-flicker 3.7s steps(1) infinite;
+  fill: #e6dcc9;
+  animation: twf 3.7s steps(1) infinite;
 }
 .tw-win.b { animation-duration: 5.1s; animation-delay: -1.2s; }
 .tw-win.c { animation-duration: 7.3s; animation-delay: -2.6s; }
 .tw-win.d { animation-duration: 4.4s; animation-delay: -0.5s; }
 .tw-win.e { animation-duration: 6.0s; animation-delay: -3.5s; }
 .tw-win.f { animation-duration: 8.2s; animation-delay: -1.7s; }
-@keyframes tw-flicker {
-  0%, 84%, 100% { fill: var(--bone); opacity: 1; }
+@keyframes twf {
+  0%, 84%, 100% { opacity: 1; }
   86%, 88%      { opacity: 0.2; }
   90%           { opacity: 1; }
   92%, 94%      { opacity: 0.4; }
 }
 
-/* ── ghost (centerpiece) ────────────────────────────────────────────── */
-.ghost-wrap {
+/* ghost */
+.ghost {
   position: absolute;
   top: 14%;
   left: 50%;
   transform: translateX(-50%);
-  width: 26%;
-  filter: drop-shadow(0 0 24px rgba(240,212,248,0.55))
-          drop-shadow(0 0 48px rgba(255,132,184,0.3));
-  animation: ghost-bob 5.5s ease-in-out infinite, ghost-fade 7s ease-in-out infinite;
+  width: 22%;
+  animation: gbob 4s steps(4) infinite, gfade 3.2s steps(4) infinite;
 }
-@keyframes ghost-bob {
-  0%, 100% { transform: translateX(-50%) translateY(0) rotate(-1deg); }
-  25%      { transform: translateX(-50%) translateY(-8px) rotate(1deg); }
-  50%      { transform: translateX(-50%) translateY(-4px) rotate(-1deg); }
-  75%      { transform: translateX(-50%) translateY(-10px) rotate(2deg); }
+@keyframes gbob {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(-6px); }
 }
-@keyframes ghost-fade {
-  0%, 100% { opacity: 0.95; }
+@keyframes gfade {
+  0%, 100% { opacity: 1; }
   50%      { opacity: 0.55; }
 }
-.ghost-wrap svg {
-  width: 100%; height: auto; display: block;
-  shape-rendering: crispEdges;
-}
+.ghost svg { width: 100%; height: auto; display: block; shape-rendering: crispEdges; }
 
-/* eyes pulse with a soft pink glow */
-.eye {
-  fill: var(--lav-0);
-  animation: eye-glow 5s ease-in-out infinite;
-}
-@keyframes eye-glow {
+.eye { fill: var(--lav-0); animation: eyepulse 2.8s steps(2) infinite; }
+@keyframes eyepulse {
   0%, 100% { fill: var(--lav-0); }
-  50%      { fill: var(--pink); filter: drop-shadow(0 0 4px var(--pink)); }
+  50%      { fill: var(--pink); }
 }
 
-/* music notes drifting up around the ghost */
+/* music notes */
 .notes {
   position: absolute;
   top: 18%; left: 50%;
@@ -187,25 +130,30 @@ body::after {
 }
 .note {
   position: absolute;
-  font-family: 'VT323', monospace;
-  font-size: 28px;
+  font-size: 14px;
   color: var(--pink);
-  text-shadow: 0 0 6px rgba(255,132,184,0.6);
   opacity: 0;
-  animation: note-rise 6s ease-out infinite;
+  animation: nrise 6s steps(20) infinite;
 }
 .note.n1 { left: 18%; animation-delay: 0s; }
-.note.n2 { left: 78%; animation-delay: 1.4s; font-size: 22px; }
-.note.n3 { left: 38%; animation-delay: 2.8s; font-size: 26px; }
-.note.n4 { left: 64%; animation-delay: 4.0s; font-size: 20px; }
-.note.n5 { left: 8%;  animation-delay: 5.2s; font-size: 24px; }
-@keyframes note-rise {
-  0%   { transform: translateY(80px) rotate(-12deg); opacity: 0; }
-  15%  { opacity: 0.9; }
-  100% { transform: translateY(-180px) rotate(12deg); opacity: 0; }
+.note.n2 { left: 78%; animation-delay: 1.2s; font-size: 12px; }
+.note.n3 { left: 38%; animation-delay: 2.4s; font-size: 14px; }
+.note.n4 { left: 64%; animation-delay: 3.6s; font-size: 10px; }
+.note.n5 { left: 8%;  animation-delay: 4.8s; font-size: 12px; }
+@keyframes nrise {
+  0%   { transform: translateY(60px); opacity: 0; }
+  15%  { opacity: 1; }
+  100% { transform: translateY(-160px); opacity: 0; }
 }
 
-/* ── gravestones in foreground ──────────────────────────────────────── */
+/* gravestones in foreground */
+.ground {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 14%;
+  background: var(--lav-2);
+  border-top: 3px solid var(--lav-3);
+}
 .graveyard {
   position: absolute;
   bottom: 0; left: 0; right: 0;
@@ -214,284 +162,210 @@ body::after {
   padding: 0 4%;
 }
 .grave {
-  width: 8%;
+  width: 7%;
   height: 60%;
   background: var(--grave);
-  border-radius: 8px 8px 0 0;
   position: relative;
-  filter: drop-shadow(0 -2px 0 rgba(180,135,212,0.15));
-}
-.grave::before {
-  content: "";
-  position: absolute;
-  inset: 12% 22% auto 22%;
-  height: 1px;
-  background: var(--lav-3);
-  opacity: 0.5;
+  border-top: 3px solid var(--lav-3);
+  border-left: 2px solid var(--lav-3);
 }
 .grave::after {
   content: "+";
   position: absolute;
-  top: 18%; left: 50%;
+  top: 16%; left: 50%;
   transform: translateX(-50%);
-  font-family: 'VT323', monospace;
-  font-size: 18px;
+  font-size: 8px;
   color: var(--lav-3);
-  opacity: 0.6;
 }
-.grave.tall { height: 78%; width: 10%; }
-.grave.short { height: 44%; width: 6%; }
+.grave.tall { height: 78%; width: 9%; }
+.grave.short { height: 40%; width: 6%; }
 
-/* ground mound under the graves */
-.ground {
-  position: absolute;
-  inset: auto 0 0 0;
-  height: 14%;
-  background: linear-gradient(to bottom, var(--lav-2), var(--lav-1));
-  border-top: 2px solid var(--lav-3);
-}
-.ground::before {
-  content: "";
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(circle at 20% 30%, var(--lav-3) 1px, transparent 2px),
-    radial-gradient(circle at 60% 60%, var(--lav-3) 1px, transparent 2px),
-    radial-gradient(circle at 80% 20%, var(--lav-3) 1px, transparent 2px);
-  background-size: 30px 30px;
-  opacity: 0.5;
-}
-
-/* ── 404 echo text ──────────────────────────────────────────────────── */
-.echo {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  display: flex; align-items: flex-start; justify-content: center;
-  padding-top: 4%;
-  font-family: 'Press Start 2P', monospace;
-  letter-spacing: 6px;
-  font-size: 22px;
+/* lower text + menu */
+.text-area {
+  background: var(--lav-1);
+  display: grid;
+  grid-template-columns: 1fr auto;
   color: var(--lav-5);
-  text-shadow:
-    0 0 8px rgba(240,212,248,0.6),
-    0 0 16px rgba(255,132,184,0.4);
+  border-top: 4px solid var(--lav-2);
 }
-.echo span {
-  display: inline-block;
-  animation: echo-fade 6s ease-in-out infinite;
-}
-.echo span:nth-child(1) { animation-delay: 0s;   color: var(--lav-5); }
-.echo span:nth-child(2) { animation-delay: 1.5s; color: var(--lav-4); }
-.echo span:nth-child(3) { animation-delay: 3.0s; color: var(--lav-3); }
-@keyframes echo-fade {
-  0%, 100% { opacity: 0; transform: translateY(0) scale(1); letter-spacing: 6px; }
-  20%      { opacity: 0.95; transform: translateY(0) scale(1); letter-spacing: 6px; }
-  60%      { opacity: 0.5; transform: translateY(-4px) scale(1.06); letter-spacing: 10px; }
-  100%     { opacity: 0; transform: translateY(-12px) scale(1.12); letter-spacing: 14px; }
-}
-
-/* haunting waveform (visual representation of the unheard music) */
-.waveform {
-  position: absolute;
-  inset: auto 0 25% 0;
-  height: 28px;
-  display: flex; gap: 4px; align-items: flex-end; justify-content: center;
-  pointer-events: none;
-}
-.bar {
-  width: 4px;
-  background: var(--pink);
-  box-shadow: 0 0 6px rgba(255,132,184,0.6);
-  animation: bar-pulse 1.7s ease-in-out infinite;
-  opacity: 0.7;
-}
-.bar:nth-child(1) { animation-delay: -0.0s; height: 12px; }
-.bar:nth-child(2) { animation-delay: -0.2s; height: 16px; }
-.bar:nth-child(3) { animation-delay: -0.4s; height: 22px; }
-.bar:nth-child(4) { animation-delay: -0.6s; height: 28px; }
-.bar:nth-child(5) { animation-delay: -0.8s; height: 22px; }
-.bar:nth-child(6) { animation-delay: -1.0s; height: 16px; }
-.bar:nth-child(7) { animation-delay: -1.2s; height: 12px; }
-.bar:nth-child(8) { animation-delay: -1.4s; height: 8px; }
-@keyframes bar-pulse {
-  0%, 100% { transform: scaleY(0.4); }
-  50%      { transform: scaleY(1.2); }
-}
-
-/* ── caption + chrome ───────────────────────────────────────────────── */
-.caption {
-  position: absolute;
-  bottom: 4%; left: 0; right: 0;
-  text-align: center;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
-  color: var(--lav-4);
-  letter-spacing: 2px;
-  text-shadow: 0 0 8px rgba(255,132,184,0.4);
-}
-.caption .small { display: block; margin-top: 6px; font-size: 8px; color: var(--lav-3); }
-
-.tagline {
-  margin-top: 22px;
-  font-family: 'Creepster', 'VT323', monospace;
-  font-size: 28px;
-  color: var(--lav-4);
-  text-align: center;
-  letter-spacing: 2px;
-  text-shadow: 0 0 12px rgba(180,135,212,0.5);
-}
-.beneath {
-  margin-top: 8px;
-  font-family: 'Press Start 2P', monospace;
+.tbox {
+  padding: 14px 18px;
   font-size: 11px;
+  line-height: 1.9;
   letter-spacing: 1px;
-  color: var(--lav-3);
-  text-align: center;
+  border-right: 4px solid var(--lav-2);
+  position: relative;
 }
-.beneath a {
+.tbox .arrow {
+  position: absolute;
+  right: 10px; bottom: 10px;
+  width: 0; height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid var(--lav-5);
+  animation: blink 0.6s steps(1) infinite;
+  opacity: 0;
+}
+.tbox.done .arrow { opacity: 1; }
+@keyframes blink { 50% { opacity: 0; } }
+
+.menu {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 10px 18px;
+  gap: 8px;
+  align-items: center;
+}
+.menu a, .menu span {
   color: var(--lav-5);
   text-decoration: none;
-  border-bottom: 2px solid var(--pink);
-  padding: 2px 4px;
+  padding-left: 14px;
+  position: relative;
 }
-.beneath a:hover { background: rgba(255,132,184,0.15); }
+.menu .go::before {
+  content: "▶";
+  position: absolute;
+  left: 0;
+  color: var(--pink);
+  animation: blink 0.55s steps(1) infinite;
+}
+.menu a.go:hover { background: var(--lav-2); }
 
 @media (max-width: 540px) {
-  .echo { font-size: 14px; letter-spacing: 4px; }
-  .caption { font-size: 8px; }
-  .caption .small { font-size: 6px; }
-  .tagline { font-size: 22px; }
+  .tbox { font-size: 9px; padding: 10px 12px; }
+  .menu { font-size: 8px; padding: 8px 12px; }
 }
 </style>
 </head>
 <body>
 
-<div class="stage" role="img" aria-label="A quiet purple sky over Pokemon Tower. A translucent ghost slowly bobs above two gravestones. The text 404 echoes softly across the screen.">
+<div class="scene">
 
-  <div class="fog" aria-hidden="true"></div>
-
-  <div class="stars" aria-hidden="true">
+  <div class="sky">
     <span class="star"   style="top:8%;left:12%"></span>
-    <span class="star b" style="top:14%;left:30%;animation-delay:-1.4s"></span>
-    <span class="star"   style="top:6%;left:48%;animation-delay:-2.6s"></span>
+    <span class="star b" style="top:14%;left:30%;animation-delay:-0.7s"></span>
+    <span class="star"   style="top:6%;left:48%;animation-delay:-1.3s"></span>
     <span class="star"   style="top:18%;left:70%"></span>
-    <span class="star b" style="top:11%;left:86%;animation-delay:-3.1s"></span>
-    <span class="star"   style="top:24%;left:8%;animation-delay:-1.7s"></span>
+    <span class="star b" style="top:11%;left:86%;animation-delay:-1.5s"></span>
+    <span class="star"   style="top:24%;left:8%;animation-delay:-0.8s"></span>
     <span class="star"   style="top:30%;left:60%"></span>
-    <span class="star b" style="top:34%;left:92%;animation-delay:-0.6s"></span>
+    <span class="star b" style="top:34%;left:92%;animation-delay:-0.3s"></span>
+    <span class="star"   style="top:40%;left:24%;animation-delay:-1.0s"></span>
+    <span class="star"   style="top:44%;left:78%"></span>
+
+    <div class="tower" aria-hidden="true">
+      <svg viewBox="0 0 100 90">
+        <polygon points="20,16 80,16 76,8 24,8" fill="#1f0e34"/>
+        <rect x="22" y="16" width="56" height="3" fill="#1f0e34"/>
+        <rect x="26" y="19" width="48" height="14" fill="#1f0e34"/>
+        <polygon points="22,33 78,33 75,30 25,30" fill="#1f0e34"/>
+        <rect x="28" y="33" width="44" height="14" fill="#1f0e34"/>
+        <polygon points="24,47 76,47 73,44 27,44" fill="#1f0e34"/>
+        <rect x="30" y="47" width="40" height="18" fill="#1f0e34"/>
+        <polygon points="26,65 74,65 70,62 30,62" fill="#1f0e34"/>
+        <rect x="32" y="65" width="36" height="20" fill="#1f0e34"/>
+        <rect x="46" y="74" width="8" height="11" fill="#0e0518"/>
+        <rect x="49" y="2" width="2" height="6" fill="#1f0e34"/>
+        <rect class="tw-win"   x="34" y="22" width="3" height="4"/>
+        <rect class="tw-win b" x="44" y="22" width="3" height="4"/>
+        <rect class="tw-win c" x="54" y="22" width="3" height="4"/>
+        <rect class="tw-win d" x="64" y="22" width="3" height="4"/>
+        <rect class="tw-win e" x="36" y="36" width="3" height="4"/>
+        <rect class="tw-win f" x="46" y="36" width="3" height="4"/>
+        <rect class="tw-win b" x="56" y="36" width="3" height="4"/>
+        <rect class="tw-win d" x="66" y="36" width="3" height="4"/>
+        <rect class="tw-win c" x="38" y="52" width="3" height="4"/>
+        <rect class="tw-win e" x="48" y="52" width="3" height="4"/>
+        <rect class="tw-win f" x="58" y="52" width="3" height="4"/>
+        <rect class="tw-win"   x="38" y="68" width="3" height="4"/>
+        <rect class="tw-win b" x="58" y="68" width="3" height="4"/>
+      </svg>
+    </div>
+
+    <div class="ghost" aria-hidden="true">
+      <svg viewBox="0 0 16 18">
+        <rect x="4" y="1" width="8"  height="1" fill="#f0d4f8"/>
+        <rect x="3" y="2" width="10" height="1" fill="#f0d4f8"/>
+        <rect x="2" y="3" width="12" height="1" fill="#f0d4f8"/>
+        <rect x="2" y="4" width="12" height="11" fill="#f0d4f8"/>
+        <rect x="2" y="15" width="2" height="2" fill="#f0d4f8"/>
+        <rect x="5" y="15" width="2" height="2" fill="#f0d4f8"/>
+        <rect x="8" y="15" width="2" height="2" fill="#f0d4f8"/>
+        <rect x="11" y="15" width="2" height="2" fill="#f0d4f8"/>
+        <rect class="eye" x="5"  y="6" width="2" height="3"/>
+        <rect class="eye" x="9"  y="6" width="2" height="3"/>
+        <rect x="5" y="6" width="1" height="1" fill="#ffffff"/>
+        <rect x="9" y="6" width="1" height="1" fill="#ffffff"/>
+        <rect x="6" y="11" width="4" height="1" fill="#3a1f5c"/>
+      </svg>
+    </div>
+
+    <div class="notes" aria-hidden="true">
+      <span class="note n1">♪</span>
+      <span class="note n2">♫</span>
+      <span class="note n3">♪</span>
+      <span class="note n4">♫</span>
+      <span class="note n5">♪</span>
+    </div>
+
+    <div class="ground" aria-hidden="true"></div>
+    <div class="graveyard" aria-hidden="true">
+      <div class="grave short"></div>
+      <div class="grave"></div>
+      <div class="grave tall"></div>
+      <div class="grave"></div>
+      <div class="grave short"></div>
+      <div class="grave"></div>
+      <div class="grave tall"></div>
+      <div class="grave short"></div>
+      <div class="grave"></div>
+    </div>
   </div>
 
-  <!-- Pokémon-Tower-style silhouette -->
-  <div class="tower" aria-hidden="true">
-    <svg viewBox="0 0 100 90">
-      <!-- roof (pagoda style) -->
-      <polygon points="20,16 80,16 76,8 24,8" fill="#1f0e34"/>
-      <rect x="22" y="16" width="56" height="3" fill="#1f0e34"/>
-      <!-- main body (3 stacked tiers) -->
-      <rect x="26" y="19" width="48" height="14" fill="#1f0e34"/>
-      <polygon points="22,33 78,33 75,30 25,30" fill="#1f0e34"/>
-      <rect x="28" y="33" width="44" height="14" fill="#1f0e34"/>
-      <polygon points="24,47 76,47 73,44 27,44" fill="#1f0e34"/>
-      <rect x="30" y="47" width="40" height="18" fill="#1f0e34"/>
-      <!-- base -->
-      <polygon points="26,65 74,65 70,62 30,62" fill="#1f0e34"/>
-      <rect x="32" y="65" width="36" height="20" fill="#1f0e34"/>
-      <!-- door -->
-      <rect x="46" y="74" width="8" height="11" fill="#0e0518"/>
-      <!-- spire -->
-      <rect x="49" y="2" width="2" height="6" fill="#1f0e34"/>
-      <!-- windows -->
-      <rect class="tw-win"   x="34" y="22" width="3" height="4"/>
-      <rect class="tw-win b" x="44" y="22" width="3" height="4"/>
-      <rect class="tw-win c" x="54" y="22" width="3" height="4"/>
-      <rect class="tw-win d" x="64" y="22" width="3" height="4"/>
-      <rect class="tw-win e" x="36" y="36" width="3" height="4"/>
-      <rect class="tw-win f" x="46" y="36" width="3" height="4"/>
-      <rect class="tw-win b" x="56" y="36" width="3" height="4"/>
-      <rect class="tw-win d" x="66" y="36" width="3" height="4"/>
-      <rect class="tw-win c" x="38" y="52" width="3" height="4"/>
-      <rect class="tw-win e" x="48" y="52" width="3" height="4"/>
-      <rect class="tw-win f" x="58" y="52" width="3" height="4"/>
-      <rect class="tw-win"   x="38" y="68" width="3" height="4"/>
-      <rect class="tw-win b" x="58" y="68" width="3" height="4"/>
-    </svg>
+  <div class="text-area">
+    <div class="tbox" id="tbox">
+      <span id="tw"></span>
+      <span class="arrow"></span>
+    </div>
+    <div class="menu">
+      <span>LISTEN</span>
+      <a href="/" class="go">LEAVE</a>
+    </div>
   </div>
 
-  <!-- waveform -->
-  <div class="waveform" aria-hidden="true">
-    <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-    <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-    <span class="bar"></span><span class="bar"></span>
-  </div>
-
-  <!-- ghost (original sheet-style: rounded top, wavy bottom, two eyes, small mouth) -->
-  <div class="ghost-wrap" aria-hidden="true">
-    <svg viewBox="0 0 32 36">
-      <!-- outer aura (very faint) -->
-      <ellipse cx="16" cy="18" rx="16" ry="18" fill="#f0d4f8" opacity="0.18"/>
-      <!-- body main shape -->
-      <path d="M16 2
-               C 7 2, 4 9, 4 16
-               L 4 30
-               L 6 28 L 8 30 L 10 28 L 12 30 L 14 28 L 16 30 L 18 28 L 20 30 L 22 28 L 24 30 L 26 28 L 28 30
-               L 28 16
-               C 28 9, 25 2, 16 2 Z"
-            fill="#f0d4f8"
-            opacity="0.92"/>
-      <!-- inner highlight (cheek) -->
-      <ellipse cx="11" cy="22" rx="2" ry="1.4" fill="#ffb6dc" opacity="0.6"/>
-      <ellipse cx="21" cy="22" rx="2" ry="1.4" fill="#ffb6dc" opacity="0.6"/>
-      <!-- eyes (pulsing) -->
-      <ellipse class="eye" cx="11" cy="14" rx="2.2" ry="3"/>
-      <ellipse class="eye" cx="21" cy="14" rx="2.2" ry="3"/>
-      <!-- eye highlights (white dot) -->
-      <rect x="10" y="12" width="1" height="1" fill="#ffffff"/>
-      <rect x="20" y="12" width="1" height="1" fill="#ffffff"/>
-      <!-- soft mouth -->
-      <path d="M14 20 Q16 22 18 20" stroke="#3a1f5c" stroke-width="0.8" fill="none"/>
-    </svg>
-  </div>
-
-  <!-- floating music notes -->
-  <div class="notes" aria-hidden="true">
-    <span class="note n1">♪</span>
-    <span class="note n2">♫</span>
-    <span class="note n3">♪</span>
-    <span class="note n4">♫</span>
-    <span class="note n5">♪</span>
-  </div>
-
-  <!-- gravestones -->
-  <div class="ground" aria-hidden="true"></div>
-  <div class="graveyard" aria-hidden="true">
-    <div class="grave short"></div>
-    <div class="grave"></div>
-    <div class="grave tall"></div>
-    <div class="grave"></div>
-    <div class="grave short"></div>
-    <div class="grave"></div>
-    <div class="grave tall"></div>
-    <div class="grave short"></div>
-    <div class="grave"></div>
-  </div>
-
-  <!-- echoing 404 text -->
-  <div class="echo" aria-hidden="true">
-    <span>404</span><span>404</span><span>404</span>
-  </div>
-
-  <p class="caption">
-    THE PAGE HAS BEEN LAID TO REST.
-    <span class="small">there is no signal here · only the song</span>
-  </p>
 </div>
 
-<p class="tagline">requiem for a missing page</p>
-<p class="beneath">
-  <a href="/">leave the tower</a>
-  &nbsp;·&nbsp;
-  <a href="javascript:history.back()">step back gently</a>
-</p>
+<script>
+(function () {
+  const lines = [
+    "The page has been laid to rest.",
+    "There is no signal here.",
+    "404 — only the song remains."
+  ];
+  const tw = document.getElementById('tw');
+  const box = document.getElementById('tbox');
+  let li = 0, ci = 0;
+  function tick() {
+    const line = lines[li];
+    if (ci <= line.length) {
+      tw.textContent = line.slice(0, ci);
+      ci++;
+      setTimeout(tick, 42);
+    } else {
+      box.classList.add('done');
+      setTimeout(() => {
+        box.classList.remove('done');
+        li = (li + 1) % lines.length;
+        ci = 0; tw.textContent = "";
+        tick();
+      }, 2400);
+    }
+  }
+  tick();
+})();
+</script>
 
 </body>
 </html>

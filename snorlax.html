@@ -5,12 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>404 — A SNORLAX is in the way!</title>
 <meta name="robots" content="noindex">
-<meta name="description" content="A 404 page — a sleeping Snorlax is blocking the route to the page you were looking for.">
-<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%239bbc0f'/><circle cx='8' cy='9' r='5' fill='%230f380f'/><path d='M5 8h1v1H5zM10 8h1v1h-1z' fill='%239bbc0f'/></svg>">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%239bbc0f'/><circle cx='8' cy='9' r='5' fill='%230f380f'/></svg>">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -20,350 +19,230 @@
   --gb-3: #9bbc0f;
 }
 
-* { box-sizing: border-box; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
-  margin: 0; padding: 0; min-height: 100%;
-  background: var(--gb-3);
+  height: 100%;
+  background: var(--gb-0);
   color: var(--gb-0);
-  font-family: 'VT323', monospace;
-  font-size: 22px;
+  font-family: 'Press Start 2P', monospace;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
-  overflow-x: hidden;
+  overflow: hidden;
 }
-body {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  min-height: 100vh;
-  padding: 20px 14px 60px;
-  position: relative;
-}
+body { display: grid; place-items: center; }
 
-/* CRT scanlines */
-body::before {
-  content: "";
-  position: fixed; inset: 0;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(15,56,15,0.10) 0px, rgba(15,56,15,0.10) 1px,
-    transparent 1px, transparent 3px);
-  pointer-events: none; z-index: 50;
-  animation: scan 12s linear infinite;
-}
-@keyframes scan { to { background-position: 0 6px; } }
-
-body::after {
-  content: ""; position: fixed; inset: 0;
-  background: radial-gradient(ellipse at center, transparent 55%, rgba(15,56,15,0.22) 100%);
-  pointer-events: none; z-index: 51;
-}
-
-/* GB device */
-.gb-screen {
-  width: min(720px, 96vw);
-  aspect-ratio: 10 / 9;
+.scene {
+  width: 100vmin;
+  height: 90vmin;
   background: var(--gb-3);
-  border: 6px solid var(--gb-0);
-  border-radius: 4px;
+  border: 8px solid var(--gb-0);
   position: relative;
   overflow: hidden;
-  box-shadow:
-    inset 0 0 0 2px var(--gb-2),
-    0 0 0 14px var(--gb-2),
-    0 0 0 16px var(--gb-0),
-    0 22px 40px rgba(15,56,15,0.45);
-}
-
-/* ── route layout ───────────────────────────────────────────────────── */
-.route {
-  position: absolute; inset: 0 0 38% 0;
   display: grid;
-  grid-template-columns: 1fr 2.4fr 1fr;
-  background:
-    /* horizontal route texture stripes */
-    repeating-linear-gradient(
-      to right,
-      rgba(48,98,48,0.12) 0 6px,
-      transparent 6px 14px);
+  grid-template-rows: 1fr 32%;
 }
 
-/* tall-grass columns left + right */
+/* ── route ──────────────────────────────────────────────────────────── */
+.route {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 2.2fr 1fr;
+  border-bottom: 4px solid var(--gb-0);
+}
+
+/* tall grass: chunky 4-tone bands */
 .grass {
   background:
     repeating-linear-gradient(
       to bottom,
-      var(--gb-2) 0 6px,
-      var(--gb-1) 6px 9px,
-      var(--gb-2) 9px 14px,
-      var(--gb-0) 14px 16px);
+      var(--gb-2) 0 8px,
+      var(--gb-1) 8px 12px,
+      var(--gb-2) 12px 18px,
+      var(--gb-0) 18px 20px);
   position: relative;
-  overflow: hidden;
-}
-.grass::before, .grass::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 30% 20%, var(--gb-0) 1px, transparent 2px),
-    radial-gradient(circle at 70% 60%, var(--gb-0) 1px, transparent 2px),
-    radial-gradient(circle at 20% 80%, var(--gb-0) 1px, transparent 2px),
-    radial-gradient(circle at 80% 30%, var(--gb-0) 1px, transparent 2px);
-  background-size: 28px 28px;
-  opacity: 0.7;
-}
-.grass::after {
-  animation: grass-sway 4.3s ease-in-out infinite;
-  transform-origin: bottom center;
-}
-@keyframes grass-sway {
-  0%, 100% { transform: skewX(0deg); }
-  50% { transform: skewX(-2deg); }
 }
 
-/* path (middle column) */
+/* path */
 .path {
   position: relative;
-  background:
-    linear-gradient(to bottom, rgba(155,188,15,1) 0%, rgba(139,172,15,1) 100%);
-  border-left: 3px solid var(--gb-1);
-  border-right: 3px solid var(--gb-1);
+  background: var(--gb-3);
+  border-left: 4px solid var(--gb-0);
+  border-right: 4px solid var(--gb-0);
 }
 
-/* tiny pebbles */
-.path::before {
-  content: "";
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(circle at 20% 12%, var(--gb-1) 1px, transparent 1.2px),
-    radial-gradient(circle at 70% 22%, var(--gb-1) 1px, transparent 1.2px),
-    radial-gradient(circle at 35% 70%, var(--gb-1) 1px, transparent 1.2px),
-    radial-gradient(circle at 80% 88%, var(--gb-1) 1px, transparent 1.2px);
-  opacity: 0.65;
-}
-
-/* ── snorlax (center of path, blocking) ─────────────────────────────── */
-.snorlax-wrap {
+/* snorlax */
+.snorlax {
   position: absolute;
-  top: 28%;
-  left: 50%;
+  top: 24%; left: 50%;
   transform: translateX(-50%);
-  width: 46%;
-  filter: drop-shadow(0 6px 0 rgba(15,56,15,0.4));
-  animation: breathe 3.2s ease-in-out infinite;
+  width: 56%;
+  animation: breathe 3.2s steps(2) infinite;
   transform-origin: bottom center;
 }
 @keyframes breathe {
-  0%, 100% { transform: translateX(-50%) scale(1, 1); }
-  50%      { transform: translateX(-50%) scale(1.025, 1.04); }
+  0%, 100% { transform: translateX(-50%) scaleY(1); }
+  50%      { transform: translateX(-50%) scaleY(1.04); }
 }
-.snorlax-wrap svg {
-  width: 100%; height: auto;
-  shape-rendering: crispEdges;
-  display: block;
-}
+.snorlax svg { width: 100%; height: auto; shape-rendering: crispEdges; display: block; }
 
-/* sleep "Z" particles */
+/* Z particles */
 .zzz {
   position: absolute;
-  top: 18%;
-  left: 62%;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 14px;
-  color: var(--gb-0);
+  top: 14%; left: 60%;
+  width: 60px; height: 60px;
   pointer-events: none;
 }
 .zzz span {
   position: absolute;
-  display: inline-block;
+  font-size: 12px;
+  color: var(--gb-0);
   opacity: 0;
-  animation: z-drift 3.4s ease-in-out infinite;
 }
-.zzz span:nth-child(1) { left: 0;   animation-delay: 0s;   font-size: 12px;}
-.zzz span:nth-child(2) { left: 14px;animation-delay: 1.1s; font-size: 14px; }
-.zzz span:nth-child(3) { left: 30px;animation-delay: 2.2s; font-size: 16px; }
-@keyframes z-drift {
-  0%   { transform: translate(0, 0) rotate(-8deg); opacity: 0; }
-  10%  { opacity: 1; }
-  60%  { opacity: 1; }
-  100% { transform: translate(18px, -42px) rotate(8deg); opacity: 0; }
+.zzz span:nth-child(1) { left:  0px; animation: zd 3s steps(6) infinite; animation-delay: 0s; }
+.zzz span:nth-child(2) { left: 14px; animation: zd 3s steps(6) infinite; animation-delay: 1s; font-size: 14px; }
+.zzz span:nth-child(3) { left: 28px; animation: zd 3s steps(6) infinite; animation-delay: 2s; font-size: 16px; }
+@keyframes zd {
+  0%   { transform: translate(0, 0); opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { transform: translate(20px, -44px); opacity: 0; }
 }
 
-/* ── trainer at bottom of path ──────────────────────────────────────── */
+/* trainer */
 .trainer {
   position: absolute;
-  bottom: 4%;
-  left: 50%;
+  bottom: 4%; left: 50%;
   transform: translateX(-50%);
   width: 14%;
-  animation: bump 6s ease-in-out infinite;
+  animation: bump 6s steps(2) infinite;
 }
 @keyframes bump {
   0%, 70%, 100% { transform: translateX(-50%) translateY(0); }
   78%   { transform: translateX(-50%) translateY(-6px); }
-  82%   { transform: translateX(-50%) translateY(-2px); }
-  86%   { transform: translateX(-50%) translateY(-8px); }
-  90%   { transform: translateX(-50%) translateY(0); }
+  84%   { transform: translateX(-50%) translateY(-2px); }
+  90%   { transform: translateX(-50%) translateY(-8px); }
+  96%   { transform: translateX(-50%) translateY(0); }
 }
 .trainer svg { width: 100%; height: auto; shape-rendering: crispEdges; display: block; }
 
 /* "!" bubble */
 .bang {
   position: absolute;
-  bottom: 22%;
-  left: 50%;
+  bottom: 22%; left: 50%;
   transform: translate(-50%, 0) scale(0);
-  width: 36px; height: 36px;
+  width: 28px; height: 28px;
   background: var(--gb-3);
   border: 3px solid var(--gb-0);
-  border-radius: 50%;
   display: grid; place-items: center;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 22px;
+  font-size: 14px;
   color: var(--gb-0);
-  box-shadow: 3px 3px 0 var(--gb-0);
-  animation: bang-pop 6s ease-in-out infinite;
-}
-.bang::after {
-  content: "";
-  position: absolute;
-  bottom: -10px; left: 30%;
-  width: 0; height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 10px solid var(--gb-0);
+  animation: bang-pop 6s steps(1) infinite;
 }
 @keyframes bang-pop {
   0%, 75%, 100% { transform: translate(-50%, 0) scale(0); }
   78%, 92%      { transform: translate(-50%, 0) scale(1); }
 }
 
-/* ── lower text box ─────────────────────────────────────────────────── */
+/* ── lower text + menu ──────────────────────────────────────────────── */
 .text-area {
-  position: absolute;
-  inset: auto 0 0 0;
-  height: 38%;
-  background: var(--gb-3);
   border-top: 4px solid var(--gb-0);
-  padding: 14px 18px;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 11px;
-  line-height: 1.95;
-  color: var(--gb-0);
-  letter-spacing: 1px;
-  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr auto;
 }
-.text-area .next-arrow {
-  position: absolute; right: 18px; bottom: 12px;
+.tbox {
+  padding: 14px 18px;
+  font-size: 11px;
+  line-height: 1.9;
+  letter-spacing: 1px;
+  border-right: 4px solid var(--gb-0);
+  position: relative;
+}
+.tbox .arrow {
+  position: absolute;
+  right: 10px; bottom: 10px;
   width: 0; height: 0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   border-top: 6px solid var(--gb-0);
-  animation: bounce 0.6s ease-in-out infinite;
+  animation: blink 0.6s steps(1) infinite;
   opacity: 0;
 }
-.text-area.done .next-arrow { opacity: 1; }
-@keyframes bounce { 50% { transform: translateY(2px); } }
-
-.choices {
-  margin-top: 14px;
-  display: flex; gap: 22px;
-  font-size: 10px;
-}
-.choices a {
-  color: var(--gb-0); text-decoration: none;
-  position: relative; padding-left: 14px;
-}
-.choices a::before {
-  content: "▶";
-  position: absolute;
-  left: 0; top: 0;
-  opacity: 0;
-}
-.choices a:hover::before { opacity: 1; animation: blink 0.6s steps(1) infinite; }
+.tbox.done .arrow { opacity: 1; }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* page chrome */
-.tagline {
-  margin-top: 18px;
-  font-family: 'VT323', monospace;
-  font-size: 18px;
-  color: var(--gb-1);
-  text-align: center;
-}
-.beneath {
-  margin-top: 4px;
-  font-family: 'Press Start 2P', monospace;
+.menu {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
   font-size: 10px;
-  color: var(--gb-1);
   letter-spacing: 1px;
-  text-align: center;
+  padding: 10px 18px;
+  gap: 8px;
+  align-items: center;
 }
-.beneath a { color: var(--gb-0); text-decoration: none; border-bottom: 2px solid var(--gb-0); }
+.menu a, .menu span {
+  color: var(--gb-0);
+  text-decoration: none;
+  padding-left: 14px;
+  position: relative;
+}
+.menu .go::before {
+  content: "▶";
+  position: absolute;
+  left: 0;
+  animation: blink 0.55s steps(1) infinite;
+}
+.menu a.go:hover { background: var(--gb-2); }
 
 @media (max-width: 540px) {
-  .text-area { font-size: 9px; padding: 10px 14px; line-height: 1.7; }
-  .choices { font-size: 8px; }
-  .grass::before, .grass::after { background-size: 18px 18px; }
+  .tbox { font-size: 9px; padding: 10px 12px; }
+  .menu { font-size: 8px; padding: 8px 12px; }
 }
 </style>
 </head>
 <body>
 
-<div class="gb-screen" role="img" aria-label="Top-down route view: a sleeping Snorlax blocks the path between two patches of tall grass; a trainer stands at the bottom of the path">
+<div class="scene">
 
   <div class="route">
     <div class="grass" aria-hidden="true"></div>
+
     <div class="path">
 
-      <!-- The blocker -->
-      <div class="snorlax-wrap" aria-hidden="true">
-        <!-- 32-wide chunky GB-shaded blob -->
+      <div class="snorlax" aria-hidden="true">
         <svg viewBox="0 0 32 26">
-          <!-- silhouette body (back layer) -->
           <rect x="6"  y="6"  width="20" height="2" fill="#0f380f"/>
           <rect x="4"  y="8"  width="24" height="2" fill="#0f380f"/>
           <rect x="3"  y="10" width="26" height="11" fill="#0f380f"/>
           <rect x="4"  y="21" width="24" height="2" fill="#0f380f"/>
           <rect x="6"  y="23" width="20" height="1" fill="#0f380f"/>
 
-          <!-- belly (lighter) -->
           <rect x="9"  y="11" width="14" height="9" fill="#306230"/>
           <rect x="11" y="20" width="10" height="1" fill="#306230"/>
 
-          <!-- tummy highlight stripe -->
           <rect x="11" y="13" width="10" height="3" fill="#8bac0f"/>
           <rect x="13" y="16" width="6"  height="1" fill="#8bac0f"/>
 
-          <!-- ears -->
           <rect x="7"  y="4" width="3" height="2" fill="#0f380f"/>
           <rect x="22" y="4" width="3" height="2" fill="#0f380f"/>
           <rect x="8"  y="3" width="1" height="1" fill="#0f380f"/>
           <rect x="23" y="3" width="1" height="1" fill="#0f380f"/>
 
-          <!-- closed eyes (curved lines via small rects) -->
           <rect x="9"  y="10" width="3" height="1" fill="#0f380f"/>
-          <rect x="10" y="9"  width="1" height="1" fill="#0f380f"/>
-          <rect x="11" y="9"  width="1" height="1" fill="#0f380f"/>
           <rect x="20" y="10" width="3" height="1" fill="#0f380f"/>
-          <rect x="20" y="9"  width="1" height="1" fill="#0f380f"/>
-          <rect x="21" y="9"  width="1" height="1" fill="#0f380f"/>
 
-          <!-- mouth (slight smile) -->
           <rect x="14" y="14" width="4" height="1" fill="#0f380f"/>
           <rect x="13" y="13" width="1" height="1" fill="#0f380f"/>
           <rect x="18" y="13" width="1" height="1" fill="#0f380f"/>
 
-          <!-- arms tucked -->
           <rect x="3"  y="14" width="3" height="4" fill="#0f380f"/>
           <rect x="26" y="14" width="3" height="4" fill="#0f380f"/>
 
-          <!-- claws on belly -->
           <rect x="11" y="19" width="1" height="1" fill="#0f380f"/>
           <rect x="13" y="19" width="1" height="1" fill="#0f380f"/>
           <rect x="18" y="19" width="1" height="1" fill="#0f380f"/>
           <rect x="20" y="19" width="1" height="1" fill="#0f380f"/>
 
-          <!-- feet -->
           <rect x="8"  y="23" width="5" height="2" fill="#0f380f"/>
           <rect x="19" y="23" width="5" height="2" fill="#0f380f"/>
           <rect x="9"  y="24" width="3" height="1" fill="#306230"/>
@@ -371,95 +250,67 @@ body::after {
         </svg>
       </div>
 
-      <!-- "Z..z..Z" floating up -->
       <div class="zzz" aria-hidden="true">
         <span>Z</span><span>z</span><span>Z</span>
       </div>
 
-      <!-- "!" bubble above trainer -->
       <div class="bang" aria-hidden="true">!</div>
 
-      <!-- trainer at bottom -->
       <div class="trainer" aria-hidden="true">
         <svg viewBox="0 0 16 18">
-          <!-- hat -->
           <rect x="3" y="0" width="10" height="2" fill="#0f380f"/>
           <rect x="2" y="2" width="12" height="1" fill="#0f380f"/>
-          <!-- head -->
           <rect x="4" y="3" width="8" height="3" fill="#306230"/>
-          <!-- shoulders -->
           <rect x="2" y="6" width="12" height="2" fill="#0f380f"/>
-          <!-- back -->
           <rect x="3" y="8" width="10" height="5" fill="#306230"/>
           <rect x="3" y="13" width="10" height="1" fill="#0f380f"/>
-          <!-- legs -->
           <rect x="4" y="14" width="3" height="4" fill="#0f380f"/>
           <rect x="9" y="14" width="3" height="4" fill="#0f380f"/>
         </svg>
       </div>
 
     </div>
+
     <div class="grass" aria-hidden="true"></div>
   </div>
 
-  <!-- text/choices box -->
-  <div class="text-area" id="textbox">
-    <span id="tw"></span>
-    <span class="next-arrow"></span>
-    <div class="choices" id="choices" style="opacity:0;transition:opacity .3s;">
-      <a href="/">→ go around (home)</a>
-      <a href="javascript:history.back()">→ turn back</a>
+  <div class="text-area">
+    <div class="tbox" id="tbox">
+      <span id="tw"></span>
+      <span class="arrow"></span>
+    </div>
+    <div class="menu">
+      <span>WAKE IT</span>
+      <a href="/" class="go">GO BACK</a>
     </div>
   </div>
 
 </div>
 
-<p class="tagline">404 · the route is blocked. you'll need a different path.</p>
-<p class="beneath">
-  <a href="/">return to the start</a>
-</p>
-
 <script>
 (function () {
   const lines = [
-    "There's a SNORLAX in the way!",
+    "A SNORLAX blocks the path!",
     "It snores, deeply.",
-    "The page you wanted is past it,",
-    "but you'd need a POKEFLUTE to wake it",
-    "(or, more honestly, the page does not exist)."
+    "404 — that route is closed."
   ];
   const tw = document.getElementById('tw');
-  const box = document.getElementById('textbox');
-  const choices = document.getElementById('choices');
-  let li = 0, ci = 0, finished = false;
-
+  const box = document.getElementById('tbox');
+  let li = 0, ci = 0;
   function tick() {
     const line = lines[li];
     if (ci <= line.length) {
       tw.textContent = line.slice(0, ci);
       ci++;
-      setTimeout(tick, 32 + Math.random() * 18);
+      setTimeout(tick, 38);
     } else {
       box.classList.add('done');
       setTimeout(() => {
-        if (li < lines.length - 1) {
-          box.classList.remove('done');
-          li++; ci = 0;
-          tw.textContent = "";
-          tick();
-        } else {
-          // reveal choices
-          choices.style.opacity = 1;
-          finished = true;
-          // restart loop after a long pause
-          setTimeout(() => {
-            choices.style.opacity = 0;
-            box.classList.remove('done');
-            li = 0; ci = 0; tw.textContent = "";
-            tick();
-          }, 8500);
-        }
-      }, 1800);
+        box.classList.remove('done');
+        li = (li + 1) % lines.length;
+        ci = 0; tw.textContent = "";
+        tick();
+      }, 2400);
     }
   }
   tick();

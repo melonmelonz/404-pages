@@ -5,559 +5,319 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>404 — A wild MISSINGNO appeared!</title>
 <meta name="robots" content="noindex">
-<meta name="description" content="A 404 page in the form of a glitched Gen-1 Pokémon battle.">
 <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%239bbc0f'/><path d='M3 3h2v3H3zM6 4h1v4H6zM8 3h2v5H8zM11 5h1v3h-1z' fill='%230f380f'/></svg>">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  --gb-0: #0f380f;   /* near-black green */
-  --gb-1: #306230;   /* dark green */
-  --gb-2: #8bac0f;   /* light green */
-  --gb-3: #9bbc0f;   /* lightest green */
-  --hp-green: #5a9c2a;
-  --hp-yellow: #d4b020;
-  --hp-red: #c43030;
+  --gb-0: #0f380f;
+  --gb-1: #306230;
+  --gb-2: #8bac0f;
+  --gb-3: #9bbc0f;
 }
 
-* { box-sizing: border-box; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
-  margin: 0; padding: 0; min-height: 100%;
-  background: var(--gb-3);
+  height: 100%;
+  background: var(--gb-0);
   color: var(--gb-0);
-  font-family: 'VT323', 'Lucida Console', monospace;
-  font-size: 22px;
-  overflow-x: hidden;
+  font-family: 'Press Start 2P', monospace;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
+  overflow: hidden;
 }
-
 body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 20px 14px 60px;
-  position: relative;
+  display: grid;
+  place-items: center;
 }
 
-/* ── full-page CRT scanlines drifting subtly ────────────────────────── */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(15,56,15,0.12) 0px,
-    rgba(15,56,15,0.12) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-  pointer-events: none;
-  z-index: 30;
-  animation: scanline-drift 12s linear infinite;
-}
-@keyframes scanline-drift {
-  to { background-position: 0 6px; }
-}
-
-/* faint vignette for that LCD-glass feel */
-body::after {
-  content: "";
-  position: fixed; inset: 0;
-  background: radial-gradient(ellipse at center,
-              transparent 50%,
-              rgba(15,56,15,0.18) 88%,
-              rgba(15,56,15,0.32) 100%);
-  pointer-events: none;
-  z-index: 31;
-}
-
-/* ── the GB screen "device" ─────────────────────────────────────────── */
-.gb-screen {
-  width: min(720px, 96vw);
-  aspect-ratio: 10 / 9;
+.scene {
+  width: 100vmin;
+  height: 90vmin;
   background: var(--gb-3);
-  border: 6px solid var(--gb-0);
-  border-radius: 4px;
+  border: 8px solid var(--gb-0);
   position: relative;
   overflow: hidden;
-  box-shadow:
-    inset 0 0 0 2px var(--gb-2),
-    0 0 0 14px var(--gb-2),
-    0 0 0 16px var(--gb-0),
-    0 22px 40px rgba(15,56,15,0.45);
-  animation: subtle-flicker 6.7s steps(1) infinite;
-}
-@keyframes subtle-flicker {
-  0%, 96%, 100% { filter: brightness(1) saturate(1); }
-  97%   { filter: brightness(0.92) saturate(1.1); }
-  97.4% { filter: brightness(1.06); }
-  97.6% { filter: brightness(0.94); }
-}
-
-.battle {
-  position: absolute;
-  inset: 0;
   display: grid;
   grid-template-rows: 1fr 38%;
 }
 
-/* ── battle field (top portion) ─────────────────────────────────────── */
+/* ── battle field ───────────────────────────────────────────────────── */
 .field {
   position: relative;
   border-bottom: 4px solid var(--gb-0);
-  background:
-    /* horizon line */
-    linear-gradient(to bottom, transparent 62%, rgba(48,98,48,0.15) 62%, rgba(48,98,48,0.15) 65%, transparent 65%);
 }
 
-/* slanted "platform" arcs (Gen-1 style) */
 .platform {
   position: absolute;
   height: 14px;
   background: var(--gb-0);
   clip-path: polygon(8% 0, 100% 0, 92% 100%, 0% 100%);
 }
-.platform.enemy {
-  top: 32%;
-  right: 8%;
-  width: 38%;
-}
+.platform.enemy { top: 36%; right: 8%; width: 38%; }
 .platform.player {
-  bottom: 6%;
-  left: 4%;
-  width: 44%;
+  bottom: 6%; left: 4%; width: 44%;
   clip-path: polygon(0 0, 92% 0, 100% 100%, 8% 100%);
 }
 
-/* ── enemy info box (top-left in classic GB battles) ────────────────── */
-.info-box {
+/* enemy info box */
+.info {
   position: absolute;
   background: var(--gb-3);
   border: 3px solid var(--gb-0);
-  font-family: 'Press Start 2P', monospace;
   padding: 8px 10px;
-  line-height: 1.55;
+  line-height: 1.6;
   font-size: 9px;
-  color: var(--gb-0);
-  box-shadow: 4px 4px 0 var(--gb-0);
-}
-.info-box .name-row {
-  display: flex; gap: 10px; align-items: baseline;
   letter-spacing: 1px;
 }
-.info-box .lv { font-size: 8px; }
-.info-box .lv::before { content: ":L"; color: var(--gb-1); }
-.info-box .hp-row {
-  display: flex; align-items: center; gap: 6px;
-  margin-top: 4px;
-}
-.info-box .hp-label {
-  font-size: 7px;
-  color: var(--gb-1);
-  letter-spacing: 1px;
-}
+.info .row { display: flex; gap: 10px; align-items: baseline; }
+.info .lv { font-size: 8px; }
+.info.enemy { top: 5%; left: 5%; }
+.info.player { bottom: 18%; right: 5%; }
+
 .hp-bar {
   width: 96px; height: 6px;
   background: var(--gb-2);
   border: 2px solid var(--gb-0);
-  position: relative;
+  margin-top: 4px;
   overflow: hidden;
 }
 .hp-bar .fill {
-  height: 100%;
-  background: var(--hp-green);
+  height: 100%; background: var(--gb-0);
   width: 60%;
-  animation: hp-glitch 0.8s steps(4) infinite;
+  animation: hp 0.8s steps(4) infinite;
 }
-@keyframes hp-glitch {
-  0%   { width: 62%; background: var(--hp-green); }
-  20%  { width: 12%; background: var(--hp-red); }
-  35%  { width: 78%; background: var(--hp-yellow); }
-  50%  { width: 0%;  background: var(--hp-red); }
-  65%  { width: 100%;background: var(--hp-green); }
-  80%  { width: 31%; background: var(--hp-yellow); }
-  100% { width: 49%; background: var(--hp-green); }
-}
-
-.info-box.enemy {
-  top: 6%;
-  left: 6%;
-  min-width: 200px;
-}
-.info-box.player {
-  right: 6%;
-  bottom: 16%;
-  min-width: 220px;
-}
-.info-box.player .name { color: var(--gb-0); }
-.info-box.player .hp-curr {
-  font-size: 9px;
-  margin-top: 4px;
-  letter-spacing: 1px;
-}
-.info-box.player .hp-curr .num { color: var(--gb-0); }
-.info-box.player .hp-curr .slash { color: var(--gb-1); margin: 0 2px; }
-.info-box.player .hp-curr .err {
-  color: var(--hp-red);
-  animation: blink 0.6s steps(1) infinite;
+@keyframes hp {
+  0%   { width: 62%; }
+  20%  { width: 12%; }
+  35%  { width: 78%; }
+  50%  { width: 0%; }
+  65%  { width: 100%; }
+  80%  { width: 31%; }
+  100% { width: 49%; }
 }
 
-/* glitch displacement on the level number */
-.info-box.enemy .lv {
-  display: inline-block;
-  animation: lv-jitter 1.7s steps(1) infinite;
-}
-@keyframes lv-jitter {
-  0%, 60%, 100% { transform: translate(0,0); content: ":L?"; }
-  62% { transform: translate(1px,-1px); }
-  64% { transform: translate(-1px,1px); }
-  68% { transform: translate(2px,0); }
-}
+.hp-curr { font-size: 9px; margin-top: 4px; letter-spacing: 1px; }
+.hp-curr .err { animation: blink 0.6s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
 
-/* ── MissingNo sprite (the scene's centerpiece) ─────────────────────── */
-.missingno-wrap {
+/* MissingNo sprite */
+.mn {
   position: absolute;
-  top: 8%;
-  right: 12%;
+  top: 8%; right: 12%;
   width: 32%;
   aspect-ratio: 1;
-  filter: drop-shadow(0 6px 0 rgba(15,56,15,0.35));
+  animation: bob 3s steps(4) infinite;
 }
-.missingno {
-  width: 100%; height: 100%;
-  position: relative;
-  animation: mn-bob 3s ease-in-out infinite;
-}
-@keyframes mn-bob {
+@keyframes bob {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-4px); }
 }
-.missingno svg {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  shape-rendering: crispEdges;
-}
-.missingno .frame { opacity: 0; }
-.missingno .frame.f1 { animation: mn-cycle 0.9s steps(1) infinite; animation-delay: 0s; }
-.missingno .frame.f2 { animation: mn-cycle 0.9s steps(1) infinite; animation-delay: -0.3s; }
-.missingno .frame.f3 { animation: mn-cycle 0.9s steps(1) infinite; animation-delay: -0.6s; }
-@keyframes mn-cycle {
+.mn svg { position: absolute; inset: 0; width: 100%; height: 100%; shape-rendering: crispEdges; }
+.mn .frame { opacity: 0; }
+.mn .frame.f1 { animation: cycle 0.9s steps(1) infinite; }
+.mn .frame.f2 { animation: cycle 0.9s steps(1) infinite; animation-delay: -0.3s; }
+.mn .frame.f3 { animation: cycle 0.9s steps(1) infinite; animation-delay: -0.6s; }
+@keyframes cycle {
   0%, 33%   { opacity: 1; }
   34%, 100% { opacity: 0; }
 }
 
-/* occasional "tear" — horizontal slice displacement */
-.missingno-wrap::after {
-  content: "";
+/* trainer */
+.trainer {
   position: absolute;
-  left: 0; right: 0;
-  top: 40%;
-  height: 8%;
-  background: var(--gb-0);
-  mix-blend-mode: difference;
-  opacity: 0;
-  animation: mn-tear 4.3s steps(1) infinite;
-}
-@keyframes mn-tear {
-  0%, 92%, 100% { opacity: 0; transform: translateX(0); }
-  93%, 95%      { opacity: 0.8; transform: translateX(-6px); }
-  94%           { opacity: 0.8; transform: translateX(8px); }
-}
-
-/* ── trainer back-sprite (player) ───────────────────────────────────── */
-.trainer-wrap {
-  position: absolute;
-  bottom: 4%;
-  left: 6%;
+  bottom: 4%; left: 6%;
   width: 30%;
   aspect-ratio: 1 / 1.1;
-  animation: trainer-idle 2.2s ease-in-out infinite;
+  animation: bob 2.2s steps(4) infinite;
 }
-@keyframes trainer-idle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-2px); }
-}
-.trainer-wrap svg {
-  width: 100%; height: 100%;
-  shape-rendering: crispEdges;
-}
+.trainer svg { width: 100%; height: 100%; shape-rendering: crispEdges; }
 
-/* ── lower text/menu box ────────────────────────────────────────────── */
+/* ── lower text + menu ──────────────────────────────────────────────── */
 .text-area {
-  background: var(--gb-3);
   border-top: 4px solid var(--gb-0);
   display: grid;
   grid-template-columns: 1fr auto;
-  font-family: 'Press Start 2P', monospace;
 }
-
-.text-box {
-  padding: 14px 18px 14px 22px;
+.tbox {
+  padding: 14px 18px;
   font-size: 11px;
   line-height: 1.9;
   letter-spacing: 1px;
-  color: var(--gb-0);
   border-right: 4px solid var(--gb-0);
   position: relative;
 }
-.text-box .typewriter {
-  display: inline;
-}
-.text-box .next-arrow {
+.tbox .arrow {
   position: absolute;
   right: 10px; bottom: 10px;
   width: 0; height: 0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
   border-top: 6px solid var(--gb-0);
-  animation: arrow-bounce 0.6s ease-in-out infinite;
+  animation: blink 0.6s steps(1) infinite;
   opacity: 0;
 }
-@keyframes arrow-bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(2px); }
-}
-.text-box.done .next-arrow { opacity: 1; }
+.tbox.done .arrow { opacity: 1; }
 
-.menu-box {
+.menu {
   display: grid;
-  grid-template-columns: auto 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 10px 18px;
+  gap: 6px 18px;
   align-items: center;
-  font-size: 10px;
-  letter-spacing: 1px;
-  padding: 10px 16px 10px 6px;
-  gap: 4px 12px;
-  min-width: 180px;
 }
-.menu-box .cursor {
-  grid-column: 1; grid-row: 1;
-  color: var(--gb-0);
-  animation: blink 0.55s steps(1) infinite;
-}
-@keyframes blink { 50% { opacity: 0; } }
-.menu-box .opt { color: var(--gb-0); }
-.menu-box .fight { grid-column: 2; grid-row: 1; }
-.menu-box .pkmn  { grid-column: 3; grid-row: 1; }
-.menu-box .item  { grid-column: 2; grid-row: 2; }
-.menu-box .run   { grid-column: 3; grid-row: 2; }
-.menu-box a.opt  { text-decoration: none; }
-.menu-box a.opt:hover { color: var(--gb-1); }
-.menu-box .run-link {
-  position: relative;
-}
-.menu-box .run-link::after {
-  content: "▶";
-  position: absolute;
-  left: -12px; top: 0;
-  color: var(--gb-0);
-  animation: blink 0.55s steps(1) infinite;
-}
-
-/* ── back link below the device ────────────────────────────────────── */
-.beneath {
-  margin-top: 18px;
-  text-align: center;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 10px;
-  color: var(--gb-1);
-  letter-spacing: 1px;
-}
-.beneath a {
+.menu a, .menu span {
   color: var(--gb-0);
   text-decoration: none;
-  border-bottom: 2px solid var(--gb-0);
-  padding-bottom: 1px;
+  padding-left: 14px;
+  position: relative;
 }
-.beneath a:hover { background: var(--gb-2); }
-
-.tagline {
-  margin-top: 6px;
-  font-family: 'VT323', monospace;
-  font-size: 18px;
-  color: var(--gb-1);
-  text-align: center;
+.menu .run::before {
+  content: "▶";
+  position: absolute;
+  left: 0;
+  animation: blink 0.55s steps(1) infinite;
 }
+.menu a.run:hover { background: var(--gb-2); }
 
-/* ── responsive scale tweaks ────────────────────────────────────────── */
 @media (max-width: 540px) {
-  .info-box { font-size: 7px; padding: 6px 8px; }
+  .info { font-size: 7px; padding: 6px 8px; }
   .hp-bar { width: 70px; }
-  .text-box { font-size: 9px; padding: 10px 14px; line-height: 1.7; }
-  .menu-box { font-size: 8px; min-width: 130px; padding: 8px 10px 8px 4px; }
-  .menu-box .run-link::after { left: -10px; }
+  .tbox { font-size: 9px; padding: 10px 12px; }
+  .menu { font-size: 8px; padding: 8px 12px; }
 }
 </style>
 </head>
 <body>
 
-<div class="gb-screen" role="img" aria-label="A glitched Pokémon battle screen, the wild MissingNo just appeared">
-  <div class="battle">
+<div class="scene">
 
-    <div class="field">
-      <div class="platform enemy"></div>
-      <div class="platform player"></div>
+  <div class="field">
+    <div class="platform enemy"></div>
+    <div class="platform player"></div>
 
-      <!-- Enemy info box (top-left) -->
-      <div class="info-box enemy">
-        <div class="name-row">
-          <span class="name">MISSINGNO</span><span class="lv">?</span>
-        </div>
-        <div class="hp-row">
-          <span class="hp-label">HP:</span>
-          <div class="hp-bar"><div class="fill"></div></div>
-        </div>
-      </div>
-
-      <!-- The glitch creature itself -->
-      <div class="missingno-wrap" aria-hidden="true">
-        <div class="missingno">
-          <!-- three glitch frames cycling -->
-          <svg class="frame f1" viewBox="0 0 16 16">
-            <rect x="2" y="2" width="2" height="12" fill="#0f380f"/>
-            <rect x="4" y="4" width="1" height="8"  fill="#306230"/>
-            <rect x="5" y="2" width="2" height="3"  fill="#0f380f"/>
-            <rect x="5" y="6" width="2" height="2"  fill="#306230"/>
-            <rect x="5" y="9" width="2" height="3"  fill="#0f380f"/>
-            <rect x="7" y="3" width="1" height="11" fill="#306230"/>
-            <rect x="8" y="2" width="3" height="2"  fill="#0f380f"/>
-            <rect x="8" y="5" width="3" height="1"  fill="#306230"/>
-            <rect x="8" y="7" width="3" height="3"  fill="#0f380f"/>
-            <rect x="8" y="11" width="3" height="2" fill="#306230"/>
-            <rect x="11" y="2" width="2" height="12" fill="#0f380f"/>
-            <rect x="13" y="4" width="1" height="8" fill="#306230"/>
-          </svg>
-          <svg class="frame f2" viewBox="0 0 16 16">
-            <rect x="2" y="3" width="3" height="2"  fill="#0f380f"/>
-            <rect x="2" y="6" width="2" height="6"  fill="#306230"/>
-            <rect x="3" y="12" width="3" height="2" fill="#0f380f"/>
-            <rect x="5" y="2" width="2" height="11" fill="#306230"/>
-            <rect x="7" y="4" width="1" height="2"  fill="#0f380f"/>
-            <rect x="7" y="7" width="1" height="3"  fill="#0f380f"/>
-            <rect x="7" y="11" width="1" height="2" fill="#0f380f"/>
-            <rect x="8" y="2" width="2" height="2"  fill="#306230"/>
-            <rect x="8" y="5" width="2" height="2"  fill="#0f380f"/>
-            <rect x="8" y="8" width="2" height="3"  fill="#306230"/>
-            <rect x="8" y="12" width="2" height="2" fill="#0f380f"/>
-            <rect x="10" y="3" width="3" height="11" fill="#306230"/>
-            <rect x="13" y="5" width="1" height="6" fill="#0f380f"/>
-          </svg>
-          <svg class="frame f3" viewBox="0 0 16 16">
-            <rect x="3" y="2" width="1" height="12" fill="#0f380f"/>
-            <rect x="4" y="3" width="2" height="2"  fill="#306230"/>
-            <rect x="4" y="7" width="2" height="3"  fill="#306230"/>
-            <rect x="4" y="11" width="2" height="2" fill="#306230"/>
-            <rect x="6" y="2" width="2" height="3"  fill="#0f380f"/>
-            <rect x="6" y="6" width="2" height="2"  fill="#306230"/>
-            <rect x="6" y="9" width="2" height="2"  fill="#0f380f"/>
-            <rect x="6" y="12" width="2" height="2" fill="#306230"/>
-            <rect x="8" y="3" width="3" height="2"  fill="#0f380f"/>
-            <rect x="8" y="6" width="3" height="3"  fill="#306230"/>
-            <rect x="8" y="10" width="3" height="2" fill="#0f380f"/>
-            <rect x="8" y="13" width="3" height="1" fill="#306230"/>
-            <rect x="11" y="2" width="1" height="12" fill="#0f380f"/>
-            <rect x="12" y="4" width="2" height="3" fill="#306230"/>
-            <rect x="12" y="9" width="2" height="3" fill="#306230"/>
-          </svg>
-        </div>
-      </div>
-
-      <!-- Player back-sprite -->
-      <div class="trainer-wrap" aria-hidden="true">
-        <svg viewBox="0 0 16 18">
-          <!-- hat brim -->
-          <rect x="3" y="1" width="10" height="2" fill="#0f380f"/>
-          <rect x="2" y="2" width="12" height="1" fill="#0f380f"/>
-          <!-- hat back -->
-          <rect x="4" y="0" width="8" height="2" fill="#306230"/>
-          <!-- hair -->
-          <rect x="3" y="3" width="10" height="1" fill="#0f380f"/>
-          <!-- head -->
-          <rect x="4" y="4" width="8" height="3" fill="#306230"/>
-          <!-- shoulders -->
-          <rect x="2" y="7" width="12" height="2" fill="#0f380f"/>
-          <!-- back -->
-          <rect x="3" y="9" width="10" height="5" fill="#306230"/>
-          <!-- belt -->
-          <rect x="3" y="13" width="10" height="1" fill="#0f380f"/>
-          <!-- legs -->
-          <rect x="4" y="14" width="3" height="4" fill="#0f380f"/>
-          <rect x="9" y="14" width="3" height="4" fill="#0f380f"/>
-        </svg>
-      </div>
-
-      <!-- Player info box -->
-      <div class="info-box player">
-        <div class="name-row">
-          <span class="name">PENN</span><span class="lv">99</span>
-        </div>
-        <div class="hp-row">
-          <span class="hp-label">HP:</span>
-          <div class="hp-bar"><div class="fill" style="width:84%; background:var(--hp-green); animation:none;"></div></div>
-        </div>
-        <div class="hp-curr">
-          <span class="num">--</span><span class="slash">/</span><span class="err">404</span>
-        </div>
-      </div>
+    <div class="info enemy">
+      <div class="row"><span>MISSINGNO</span><span class="lv">:L?</span></div>
+      <div>HP:</div>
+      <div class="hp-bar"><div class="fill"></div></div>
     </div>
 
-    <!-- bottom text + menu -->
-    <div class="text-area">
-      <div class="text-box" id="textbox">
-        <span class="typewriter" id="tw"></span>
-        <span class="next-arrow"></span>
-      </div>
-      <div class="menu-box" aria-label="battle menu">
-        <span class="opt fight">FIGHT</span>
-        <span class="opt pkmn">PKMN</span>
-        <span class="opt item">ITEM</span>
-        <a class="opt run run-link" href="/">RUN</a>
-      </div>
+    <div class="mn" aria-hidden="true">
+      <svg class="frame f1" viewBox="0 0 16 16">
+        <rect x="2" y="2" width="2" height="12" fill="#0f380f"/>
+        <rect x="4" y="4" width="1" height="8"  fill="#306230"/>
+        <rect x="5" y="2" width="2" height="3"  fill="#0f380f"/>
+        <rect x="5" y="6" width="2" height="2"  fill="#306230"/>
+        <rect x="5" y="9" width="2" height="3"  fill="#0f380f"/>
+        <rect x="7" y="3" width="1" height="11" fill="#306230"/>
+        <rect x="8" y="2" width="3" height="2"  fill="#0f380f"/>
+        <rect x="8" y="5" width="3" height="1"  fill="#306230"/>
+        <rect x="8" y="7" width="3" height="3"  fill="#0f380f"/>
+        <rect x="8" y="11" width="3" height="2" fill="#306230"/>
+        <rect x="11" y="2" width="2" height="12" fill="#0f380f"/>
+        <rect x="13" y="4" width="1" height="8" fill="#306230"/>
+      </svg>
+      <svg class="frame f2" viewBox="0 0 16 16">
+        <rect x="2" y="3" width="3" height="2"  fill="#0f380f"/>
+        <rect x="2" y="6" width="2" height="6"  fill="#306230"/>
+        <rect x="3" y="12" width="3" height="2" fill="#0f380f"/>
+        <rect x="5" y="2" width="2" height="11" fill="#306230"/>
+        <rect x="7" y="4" width="1" height="2"  fill="#0f380f"/>
+        <rect x="7" y="7" width="1" height="3"  fill="#0f380f"/>
+        <rect x="7" y="11" width="1" height="2" fill="#0f380f"/>
+        <rect x="8" y="2" width="2" height="2"  fill="#306230"/>
+        <rect x="8" y="5" width="2" height="2"  fill="#0f380f"/>
+        <rect x="8" y="8" width="2" height="3"  fill="#306230"/>
+        <rect x="8" y="12" width="2" height="2" fill="#0f380f"/>
+        <rect x="10" y="3" width="3" height="11" fill="#306230"/>
+        <rect x="13" y="5" width="1" height="6" fill="#0f380f"/>
+      </svg>
+      <svg class="frame f3" viewBox="0 0 16 16">
+        <rect x="3" y="2" width="1" height="12" fill="#0f380f"/>
+        <rect x="4" y="3" width="2" height="2"  fill="#306230"/>
+        <rect x="4" y="7" width="2" height="3"  fill="#306230"/>
+        <rect x="4" y="11" width="2" height="2" fill="#306230"/>
+        <rect x="6" y="2" width="2" height="3"  fill="#0f380f"/>
+        <rect x="6" y="6" width="2" height="2"  fill="#306230"/>
+        <rect x="6" y="9" width="2" height="2"  fill="#0f380f"/>
+        <rect x="6" y="12" width="2" height="2" fill="#306230"/>
+        <rect x="8" y="3" width="3" height="2"  fill="#0f380f"/>
+        <rect x="8" y="6" width="3" height="3"  fill="#306230"/>
+        <rect x="8" y="10" width="3" height="2" fill="#0f380f"/>
+        <rect x="8" y="13" width="3" height="1" fill="#306230"/>
+        <rect x="11" y="2" width="1" height="12" fill="#0f380f"/>
+        <rect x="12" y="4" width="2" height="3" fill="#306230"/>
+        <rect x="12" y="9" width="2" height="3" fill="#306230"/>
+      </svg>
     </div>
 
+    <div class="trainer" aria-hidden="true">
+      <svg viewBox="0 0 16 18">
+        <rect x="3" y="1" width="10" height="2" fill="#0f380f"/>
+        <rect x="2" y="2" width="12" height="1" fill="#0f380f"/>
+        <rect x="4" y="0" width="8" height="2" fill="#306230"/>
+        <rect x="3" y="3" width="10" height="1" fill="#0f380f"/>
+        <rect x="4" y="4" width="8" height="3" fill="#306230"/>
+        <rect x="2" y="7" width="12" height="2" fill="#0f380f"/>
+        <rect x="3" y="9" width="10" height="5" fill="#306230"/>
+        <rect x="3" y="13" width="10" height="1" fill="#0f380f"/>
+        <rect x="4" y="14" width="3" height="4" fill="#0f380f"/>
+        <rect x="9" y="14" width="3" height="4" fill="#0f380f"/>
+      </svg>
+    </div>
+
+    <div class="info player">
+      <div class="row"><span>PENN</span><span class="lv">:L99</span></div>
+      <div>HP:</div>
+      <div class="hp-bar"><div class="fill" style="width:84%; animation:none;"></div></div>
+      <div class="hp-curr">--/<span class="err">404</span></div>
+    </div>
   </div>
+
+  <div class="text-area">
+    <div class="tbox" id="tbox">
+      <span id="tw"></span>
+      <span class="arrow"></span>
+    </div>
+    <div class="menu">
+      <span>FIGHT</span>
+      <span>PKMN</span>
+      <span>ITEM</span>
+      <a href="/" class="run">RUN</a>
+    </div>
+  </div>
+
 </div>
 
-<p class="tagline">404 · the page glitched out of the game's memory</p>
-<p class="beneath">
-  press <a href="/">RUN</a> to flee &middot;
-  <a href="javascript:history.back()">back the way you came</a>
-</p>
-
 <script>
-(function () {
+(function(){
   const lines = [
     "A wild MISSINGNO appeared!",
-    "You have encountered an HTTP 404.",
-    "The page is not in this build of",
-    "the cartridge. RUN to flee."
+    "HTTP 404. Page not in cartridge.",
+    "RUN to flee."
   ];
-  const tw   = document.getElementById('tw');
-  const box  = document.getElementById('textbox');
+  const tw = document.getElementById('tw');
+  const box = document.getElementById('tbox');
   let li = 0, ci = 0;
-  let typing = true;
-
-  function tick() {
-    if (!typing) return;
+  function tick(){
     const line = lines[li];
-    if (ci <= line.length) {
+    if (ci <= line.length){
       tw.textContent = line.slice(0, ci);
       ci++;
-      setTimeout(tick, 38 + Math.random() * 20);
+      setTimeout(tick, 38);
     } else {
       box.classList.add('done');
       setTimeout(() => {
         box.classList.remove('done');
-        li = (li + 1) % lines.length;
-        ci = 0;
-        tw.textContent = "";
+        li = (li+1) % lines.length;
+        ci = 0; tw.textContent = "";
         tick();
       }, 2400);
     }
