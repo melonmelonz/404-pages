@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>404 — Looks like the page is blasting off again!</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="A 404 page — Team Rocket-style: the page is blasting off again into a starry night sky.">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%230a0820'/><path d='M8 2l1.2 3.6 3.8.2-3 2.4 1 3.8-3-2.2-3 2.2 1-3.8-3-2.4 3.8-.2z' fill='%23f8e878'/></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --night-0: #08061c;
+  --night-1: #14123e;
+  --night-2: #2a2362;
+  --night-3: #5246a8;
+  --moon: #f4ecc4;
+  --moon-shadow: #e0d496;
+  --star: #fef9c8;
+  --spark: #ffe27a;
+  --rose: #d6446a;
+  --skyline: #1c1638;
+  --window-warm: #ffb84a;
+  --window-cool: #88e0ff;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0; padding: 0; min-height: 100%;
+  background: var(--night-0);
+  color: #e6e0ff;
+  font-family: 'VT323', monospace;
+  font-size: 22px;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  overflow-x: hidden;
+}
+body {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  min-height: 100vh;
+  padding: 30px 14px 60px;
+  position: relative;
+}
+
+/* faint vignette + scanlines */
+body::after {
+  content: ""; position: fixed; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.55) 100%);
+  pointer-events: none; z-index: 80;
+}
+
+/* ── stage frame ────────────────────────────────────────────────────── */
+.stage {
+  width: min(820px, 96vw);
+  aspect-ratio: 16 / 11;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  background: linear-gradient(to bottom,
+    var(--night-0) 0%,
+    var(--night-1) 40%,
+    var(--night-2) 75%,
+    var(--night-3) 100%);
+  box-shadow:
+    inset 0 0 80px rgba(0,0,0,0.6),
+    0 0 0 4px var(--night-1),
+    0 22px 60px rgba(0,0,0,0.7);
+}
+
+/* ── star fields, three depth layers, each twinkling ────────────────── */
+.stars {
+  position: absolute; inset: 0;
+  pointer-events: none;
+}
+.stars.layer-1 { animation: drift 80s linear infinite; }
+.stars.layer-2 { animation: drift 130s linear infinite reverse; }
+.stars.layer-3 { animation: drift 200s linear infinite; }
+@keyframes drift {
+  to { transform: translateX(-40px); }
+}
+
+.star {
+  position: absolute;
+  width: 2px; height: 2px;
+  background: var(--star);
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(254,249,200,0.7);
+  animation: twinkle 3s ease-in-out infinite;
+}
+.star.big { width: 3px; height: 3px; box-shadow: 0 0 8px rgba(254,249,200,0.9); }
+.star.tiny { width: 1px; height: 1px; box-shadow: none; opacity: 0.65; }
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50%      { opacity: 1;   transform: scale(1); }
+}
+
+/* a couple of "shooting star" streaks */
+.shooting {
+  position: absolute;
+  top: 18%; left: -10%;
+  width: 80px; height: 1px;
+  background: linear-gradient(to right, transparent, var(--star) 60%, white);
+  border-radius: 50%;
+  filter: drop-shadow(0 0 4px var(--star));
+  opacity: 0;
+  animation: shoot 11s ease-in infinite;
+  animation-delay: 4s;
+}
+.shooting.b {
+  top: 33%; width: 60px;
+  animation-delay: 8.5s;
+  animation-duration: 13s;
+}
+@keyframes shoot {
+  0%, 100% { opacity: 0; transform: translateX(0) translateY(0); }
+  3%, 9%   { opacity: 1; }
+  10%      { opacity: 0; transform: translateX(620px) translateY(60px); }
+}
+
+/* ── moon (full, with crater dots) ──────────────────────────────────── */
+.moon {
+  position: absolute;
+  top: 8%; right: 8%;
+  width: 14%;
+  aspect-ratio: 1;
+  filter: drop-shadow(0 0 18px rgba(244,236,196,0.45))
+          drop-shadow(0 0 36px rgba(244,236,196,0.25));
+  animation: moon-glow 6s ease-in-out infinite;
+}
+@keyframes moon-glow {
+  0%, 100% { filter: drop-shadow(0 0 18px rgba(244,236,196,0.45)) drop-shadow(0 0 36px rgba(244,236,196,0.25)); }
+  50%      { filter: drop-shadow(0 0 22px rgba(244,236,196,0.55)) drop-shadow(0 0 44px rgba(244,236,196,0.35)); }
+}
+.moon svg { width: 100%; height: 100%; shape-rendering: crispEdges; display: block; }
+
+/* ── city skyline at bottom ─────────────────────────────────────────── */
+.skyline {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 28%;
+}
+.skyline svg {
+  width: 100%; height: 100%;
+  display: block;
+  shape-rendering: crispEdges;
+}
+/* lit windows blink */
+.win-warm {
+  animation: lit 4.7s steps(1) infinite;
+}
+.win-cool {
+  animation: lit 6.1s steps(1) infinite;
+  animation-delay: -2.3s;
+}
+.win-warm.b { animation-delay: -1s; }
+.win-warm.c { animation-delay: -3s; }
+.win-cool.b { animation-delay: -4.5s; }
+@keyframes lit {
+  0%, 70%, 100% { opacity: 1; }
+  72%, 73% { opacity: 0; }
+  74%, 78% { opacity: 1; }
+  79% { opacity: 0; }
+  82% { opacity: 1; }
+}
+
+/* ── two silhouettes "blasting off" diagonally ──────────────────────── */
+.duo {
+  position: absolute;
+  bottom: 28%;
+  left: 18%;
+  width: 52px;
+  height: 52px;
+  animation: blast 7s ease-in infinite;
+}
+.duo .silhouette {
+  position: absolute;
+  inset: 0;
+}
+.duo .silhouette svg {
+  width: 100%; height: 100%;
+  shape-rendering: crispEdges;
+  display: block;
+  filter: drop-shadow(0 0 6px rgba(214,68,106,0.4));
+}
+.duo .a { animation: wobble 0.9s ease-in-out infinite; }
+.duo .b {
+  transform: translate(14px, -8px);
+  animation: wobble 0.9s ease-in-out infinite;
+  animation-delay: -0.45s;
+}
+@keyframes wobble {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50%      { transform: translate(0, -3px) rotate(2deg); }
+}
+.duo .b {
+  /* bumped offset, plus its own wobble layered */
+  animation: wobble-b 0.9s ease-in-out infinite;
+}
+@keyframes wobble-b {
+  0%, 100% { transform: translate(14px, -8px) rotate(0deg); }
+  50%      { transform: translate(14px, -11px) rotate(-2deg); }
+}
+
+@keyframes blast {
+  0%   { left: 18%; bottom: 28%; transform: scale(1) rotate(0deg); opacity: 0; }
+  6%   { opacity: 1; }
+  100% { left: 88%; bottom: 78%; transform: scale(0.18) rotate(35deg); opacity: 0; }
+}
+
+/* sparkle trail behind the duo */
+.trail {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+.trail .puff {
+  position: absolute;
+  width: 6px; height: 6px;
+  background: var(--rose);
+  border-radius: 50%;
+  filter: blur(2px);
+  opacity: 0;
+  animation: puff 7s ease-in infinite;
+}
+.trail .puff.p2 { animation-delay: 0.3s; }
+.trail .puff.p3 { animation-delay: 0.6s; }
+.trail .puff.p4 { animation-delay: 0.9s; }
+@keyframes puff {
+  0%   { left: 18%; bottom: 28%; opacity: 0; transform: scale(1); }
+  10%  { opacity: 0.7; }
+  100% { left: 88%; bottom: 78%; opacity: 0; transform: scale(0.3); }
+}
+
+/* the final "ding" sparkle when they reach the corner */
+.ding {
+  position: absolute;
+  top: 16%; right: 14%;
+  width: 58px; height: 58px;
+  pointer-events: none;
+  opacity: 0;
+  animation: ding 7s ease-in infinite;
+}
+@keyframes ding {
+  0%, 78%, 100% { opacity: 0; transform: scale(0.4); }
+  82%, 88%      { opacity: 1; transform: scale(1.05); }
+  92%           { opacity: 0; transform: scale(1.4); }
+}
+.ding svg { width: 100%; height: 100%; filter: drop-shadow(0 0 12px var(--spark)); }
+
+/* ── caption + chrome ───────────────────────────────────────────────── */
+.caption {
+  position: absolute;
+  inset: auto 0 4% 0;
+  text-align: center;
+  font-family: 'Press Start 2P', monospace;
+  color: var(--star);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px rgba(254,249,200,0.5);
+}
+.caption .row-1 { display: block; }
+.caption .row-2 { display: block; margin-top: 8px; font-size: 9px; color: var(--rose); letter-spacing: 1.5px; }
+
+.beneath {
+  margin-top: 24px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #c8c0ff;
+  text-align: center;
+}
+.beneath a {
+  color: var(--star);
+  text-decoration: none;
+  border-bottom: 2px solid var(--rose);
+  padding: 2px 4px;
+  transition: background 0.2s;
+}
+.beneath a:hover { background: rgba(214,68,106,0.2); }
+
+.tagline {
+  margin-top: 14px;
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  color: #c8c0ff;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 540px) {
+  .caption .row-1 { font-size: 9px; letter-spacing: 1px; }
+  .caption .row-2 { font-size: 7px; }
+  .duo { width: 36px; height: 36px; }
+}
+</style>
+</head>
+<body>
+
+<div class="stage" role="img" aria-label="A starry night sky over a city silhouette. Two small figures are blasting off diagonally toward the upper-right corner with a sparkle.">
+
+  <!-- 3-layer parallax stars -->
+  <div class="stars layer-1" aria-hidden="true">
+    <span class="star tiny" style="top:6%;left:4%;animation-delay:-0.4s"></span>
+    <span class="star"      style="top:9%;left:18%;animation-delay:-1.4s"></span>
+    <span class="star big"  style="top:14%;left:38%;animation-delay:-2.2s"></span>
+    <span class="star tiny" style="top:7%;left:55%"></span>
+    <span class="star"      style="top:12%;left:68%;animation-delay:-0.9s"></span>
+    <span class="star tiny" style="top:5%;left:82%"></span>
+    <span class="star"      style="top:22%;left:8%;animation-delay:-1.7s"></span>
+    <span class="star tiny" style="top:26%;left:24%"></span>
+    <span class="star big"  style="top:30%;left:46%;animation-delay:-2.6s"></span>
+    <span class="star tiny" style="top:24%;left:60%"></span>
+    <span class="star"      style="top:32%;left:75%;animation-delay:-0.6s"></span>
+    <span class="star tiny" style="top:38%;left:10%"></span>
+    <span class="star"      style="top:42%;left:30%;animation-delay:-1.1s"></span>
+    <span class="star tiny" style="top:40%;left:50%"></span>
+    <span class="star tiny" style="top:46%;left:64%"></span>
+    <span class="star big"  style="top:52%;left:20%;animation-delay:-3.0s"></span>
+  </div>
+
+  <div class="stars layer-2" aria-hidden="true">
+    <span class="star tiny" style="top:11%;left:11%;animation-delay:-0.7s"></span>
+    <span class="star tiny" style="top:18%;left:28%"></span>
+    <span class="star tiny" style="top:8%;left:42%"></span>
+    <span class="star tiny" style="top:26%;left:73%"></span>
+    <span class="star tiny" style="top:35%;left:18%"></span>
+    <span class="star tiny" style="top:48%;left:43%"></span>
+    <span class="star tiny" style="top:55%;left:7%"></span>
+    <span class="star tiny" style="top:48%;left:82%"></span>
+  </div>
+
+  <div class="stars layer-3" aria-hidden="true">
+    <span class="star tiny" style="top:3%;left:33%;opacity:0.4"></span>
+    <span class="star tiny" style="top:15%;left:88%;opacity:0.4"></span>
+    <span class="star tiny" style="top:28%;left:90%;opacity:0.4"></span>
+    <span class="star tiny" style="top:50%;left:55%;opacity:0.4"></span>
+    <span class="star tiny" style="top:60%;left:33%;opacity:0.4"></span>
+  </div>
+
+  <div class="shooting"   aria-hidden="true"></div>
+  <div class="shooting b" aria-hidden="true"></div>
+
+  <!-- moon (full, with subtle crater detail) -->
+  <div class="moon" aria-hidden="true">
+    <svg viewBox="0 0 32 32">
+      <circle cx="16" cy="16" r="14" fill="#f4ecc4"/>
+      <circle cx="11" cy="11" r="2"  fill="#e0d496"/>
+      <circle cx="20" cy="14" r="1.4" fill="#e0d496"/>
+      <circle cx="14" cy="20" r="1.8" fill="#e0d496"/>
+      <circle cx="22" cy="22" r="1"  fill="#e0d496"/>
+      <circle cx="9"  cy="18" r="0.8" fill="#e0d496"/>
+    </svg>
+  </div>
+
+  <!-- city skyline -->
+  <div class="skyline" aria-hidden="true">
+    <svg viewBox="0 0 320 90" preserveAspectRatio="none">
+      <!-- back row of buildings -->
+      <rect x="0"   y="40" width="40"  height="50" fill="#1c1638"/>
+      <rect x="40"  y="32" width="28"  height="58" fill="#1c1638"/>
+      <rect x="68"  y="46" width="20"  height="44" fill="#1c1638"/>
+      <rect x="88"  y="22" width="36"  height="68" fill="#1c1638"/>
+      <rect x="124" y="38" width="22"  height="52" fill="#1c1638"/>
+      <rect x="146" y="14" width="32"  height="76" fill="#1c1638"/>
+      <rect x="178" y="42" width="30"  height="48" fill="#1c1638"/>
+      <rect x="208" y="28" width="28"  height="62" fill="#1c1638"/>
+      <rect x="236" y="48" width="18"  height="42" fill="#1c1638"/>
+      <rect x="254" y="34" width="28"  height="56" fill="#1c1638"/>
+      <rect x="282" y="44" width="38"  height="46" fill="#1c1638"/>
+      <!-- antenna -->
+      <rect x="161" y="6"  width="2"  height="10" fill="#1c1638"/>
+      <rect x="218" y="20" width="1"  height="10" fill="#1c1638"/>
+
+      <!-- warm windows -->
+      <rect class="win-warm"   x="46"  y="42" width="3" height="3" fill="#ffb84a"/>
+      <rect class="win-warm b" x="54"  y="42" width="3" height="3" fill="#ffb84a"/>
+      <rect class="win-warm"   x="46"  y="50" width="3" height="3" fill="#ffb84a"/>
+      <rect class="win-warm c" x="54"  y="58" width="3" height="3" fill="#ffb84a"/>
+      <rect class="win-warm"   x="94"  y="32" width="3" height="3" fill="#ffb84a"/>
+      <rect class="win-warm b" x="102" y="40" width="3" height="3" fill="#ffb84a"/>
+      <rect class="win-warm c" x="110" y="48" width="3" height="3" fill="#ffb84a"/>
+      <rect class="win-warm"   x="116" y="56" width="3" height="3" fill="#ffb84a"/>
+      <rect class="win-warm"   x="152" y="24" width="3" height="3" fill="#ffb84a"/>
+      <rect class="win-warm c" x="160" y="32" width="3" height="3" fill="#ffb84a"/>
+      <rect class="win-warm b" x="152" y="40" width="3" height="3" fill="#ffb84a"/>
+      <rect class="win-warm"   x="168" y="48" width="3" height="3" fill="#ffb84a"/>
+      <rect class="win-warm"   x="216" y="36" width="3" height="3" fill="#ffb84a"/>
+      <rect class="win-warm b" x="224" y="44" width="3" height="3" fill="#ffb84a"/>
+      <rect class="win-warm"   x="262" y="42" width="3" height="3" fill="#ffb84a"/>
+      <rect class="win-warm c" x="270" y="50" width="3" height="3" fill="#ffb84a"/>
+
+      <!-- cool blue windows -->
+      <rect class="win-cool"   x="74"  y="50" width="3" height="3" fill="#88e0ff"/>
+      <rect class="win-cool b" x="80"  y="58" width="3" height="3" fill="#88e0ff"/>
+      <rect class="win-cool"   x="130" y="44" width="3" height="3" fill="#88e0ff"/>
+      <rect class="win-cool b" x="138" y="52" width="3" height="3" fill="#88e0ff"/>
+      <rect class="win-cool"   x="184" y="50" width="3" height="3" fill="#88e0ff"/>
+      <rect class="win-cool b" x="192" y="60" width="3" height="3" fill="#88e0ff"/>
+      <rect class="win-cool"   x="240" y="54" width="3" height="3" fill="#88e0ff"/>
+      <rect class="win-cool b" x="290" y="52" width="3" height="3" fill="#88e0ff"/>
+      <rect class="win-cool"   x="298" y="60" width="3" height="3" fill="#88e0ff"/>
+    </svg>
+  </div>
+
+  <!-- pink puffs trailing behind the duo -->
+  <div class="trail" aria-hidden="true">
+    <span class="puff p1"></span>
+    <span class="puff p2"></span>
+    <span class="puff p3"></span>
+    <span class="puff p4"></span>
+  </div>
+
+  <!-- the duo -->
+  <div class="duo" aria-hidden="true">
+    <div class="silhouette a">
+      <svg viewBox="0 0 16 16">
+        <!-- abstract crouching figure silhouette (no IP-specific features) -->
+        <rect x="6" y="2" width="4" height="2" fill="#1c1638"/>
+        <rect x="5" y="4" width="6" height="3" fill="#1c1638"/>
+        <rect x="4" y="7" width="8" height="4" fill="#1c1638"/>
+        <rect x="3" y="11" width="3" height="3" fill="#1c1638"/>
+        <rect x="10" y="11" width="3" height="3" fill="#1c1638"/>
+        <!-- pink accent -->
+        <rect x="6" y="8" width="4" height="1" fill="#d6446a"/>
+      </svg>
+    </div>
+    <div class="silhouette b">
+      <svg viewBox="0 0 16 16">
+        <rect x="6" y="2" width="4" height="2" fill="#1c1638"/>
+        <rect x="5" y="4" width="6" height="3" fill="#1c1638"/>
+        <rect x="3" y="7" width="10" height="4" fill="#1c1638"/>
+        <rect x="3" y="11" width="3" height="3" fill="#1c1638"/>
+        <rect x="10" y="11" width="3" height="3" fill="#1c1638"/>
+        <!-- white accent -->
+        <rect x="6" y="8" width="4" height="1" fill="#fef9c8"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- final "ding" sparkle -->
+  <div class="ding" aria-hidden="true">
+    <svg viewBox="0 0 24 24">
+      <!-- 4-pointed sparkle -->
+      <polygon points="12,0 14,10 24,12 14,14 12,24 10,14 0,12 10,10"
+               fill="#ffe27a"/>
+      <polygon points="12,4 13,11 20,12 13,13 12,20 11,13 4,12 11,11"
+               fill="#fef9c8"/>
+      <!-- thin diagonals -->
+      <rect x="11.4" y="0"  width="1.2" height="24" fill="#ffe27a" opacity="0.6"/>
+      <rect x="0"  y="11.4" width="24" height="1.2" fill="#ffe27a" opacity="0.6"/>
+    </svg>
+  </div>
+
+  <p class="caption">
+    <span class="row-1">LOOKS LIKE THE PAGE</span>
+    <span class="row-1">IS BLASTING OFF AGAIN!</span>
+    <span class="row-2">·  ·  ·  HTTP 404  ·  ·  ·</span>
+  </p>
+
+</div>
+
+<p class="tagline">404 · the page absconded with the meowth and the megaphone</p>
+<p class="beneath">
+  <a href="/">return to twin-roof town (home)</a>
+  &nbsp;·&nbsp;
+  <a href="javascript:history.back()">go back the way you came</a>
+</p>
+
+</body>
+</html>

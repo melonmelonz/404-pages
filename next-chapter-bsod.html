@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEXT CHAPTER — A fatal exception has occurred</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="A 404 page in the form of a Windows 9x Blue Screen of Death.">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%230000aa'/><text x='2' y='12' font-family='monospace' font-size='10' fill='%23ffffff'>:(</text></svg>">
+
+<style>
+html, body {
+  margin: 0; padding: 0; min-height: 100%;
+  background: #0000aa; color: #fff;
+  font-family: 'Lucida Console', 'Consolas', 'Courier New', monospace;
+  font-size: 16px; line-height: 1.45;
+}
+.bsod {
+  max-width: 720px; margin: 0 auto; padding: 48px 24px 40px;
+}
+.bsod h1 {
+  display: inline-block; background: #c0c0c0; color: #0000aa;
+  padding: 0 14px; margin: 0 0 24px; font-size: 18px;
+  font-family: 'Lucida Console', monospace; font-weight: bold;
+}
+.bsod pre {
+  white-space: pre; font-family: inherit; margin: 16px 0;
+  font-size: 14px; line-height: 1.2;
+}
+.bsod .blink { animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.bsod a { color: #fff; text-decoration: underline; }
+.bsod .keys { color: #c0c0c0; }
+</style>
+</head>
+<body>
+
+<div class="bsod">
+  <h1>NEXT CHAPTER</h1>
+
+  <p>
+    A fatal exception <span class="blink">0E</span> has occurred at
+    <code>0028:C00FFEE5</code> in module <code>NEXTCHAPTER.VXD</code>.
+    The current application will be terminated.
+  </p>
+
+  <pre>
+   ╔═══════════════════════════════════════════════╗
+   ║                                               ║
+   ║     ┌─────┐    ┌─────┐    ┌─────┐             ║
+   ║     │ 4 0 │ ── │  N  │ ── │ 4 0 │             ║
+   ║     └─────┘    └─────┘    └─────┘             ║
+   ║                                               ║
+   ║         FILE NOT FOUND ON THIS DESKTOP        ║
+   ║                                               ║
+   ╚═══════════════════════════════════════════════╝
+  </pre>
+
+  <p>
+    *  The path you requested is not on the desktop. It may have been
+       dragged to the Recycle Bin, never created, or you are very lost.
+  </p>
+  <p>
+    *  Press <span class="keys">[BACKSPACE]</span> to retreat.<br>
+    *  Press <span class="keys">[ENTER]</span> to return to the desktop.<br>
+    *  Press any other key to <span class="blink">_</span>
+  </p>
+
+  <p style="margin-top:32px">
+    <a href="/">[ return to the desktop ]</a>
+  </p>
+</div>
+
+<script>
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Backspace') { e.preventDefault(); history.back(); }
+  else if (e.key === 'Enter') { location.href = '/'; }
+});
+</script>
+
+</body>
+</html>

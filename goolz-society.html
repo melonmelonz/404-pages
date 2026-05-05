@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>404 — Not Found · The Goolz Society</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="A 404 page in the voice of a quiet Victorian field society.">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23f4eeda'/><text x='3' y='13' font-family='Courier New,monospace' font-size='13' font-weight='bold' fill='%231b3a1f'>G</text></svg>">
+
+<style>
+:root {
+  --paper: #f4eeda;
+  --ink:   #1b3a1f;
+  --ink-2: #4a6b3a;
+  --rule:  #6b6147;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0; min-height: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Courier New', 'Lucida Console', monospace;
+  font-size: 16px; line-height: 1.55;
+}
+body {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 36px 22px 60px;
+}
+
+.banner {
+  text-align: center;
+  border-bottom: 2px double var(--rule);
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}
+.banner h1 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: normal;
+  font-size: 32px;
+  margin: 0 0 6px;
+  letter-spacing: 1px;
+}
+.banner .sub {
+  font-size: 13px;
+  color: var(--ink-2);
+  letter-spacing: 1px;
+}
+
+.ascii {
+  white-space: pre;
+  font-family: 'Courier New', monospace;
+  margin: 22px 0;
+  text-align: center;
+}
+.ascii.big { font-size: 14px; line-height: 1.1; }
+
+nav.top {
+  text-align: center;
+  font-size: 13px;
+  margin: 16px 0 22px;
+  color: var(--ink-2);
+}
+nav.top a { color: var(--ink); }
+
+h2 { font-family: Georgia, serif; font-style: italic; font-weight: normal; font-size: 22px; margin: 22px 0 10px; }
+p { margin: 12px 0; }
+ul.plain { list-style: none; padding-left: 0; }
+ul.plain li { margin: 6px 0; padding-left: 14px; position: relative; }
+ul.plain li::before { content: "·"; position: absolute; left: 0; }
+
+a { color: var(--ink); }
+a:hover { background: var(--ink); color: var(--paper); }
+
+footer { margin-top: 32px; font-size: 12px; color: var(--ink-2); text-align: center; }
+footer a { color: var(--ink-2); }
+</style>
+</head>
+<body>
+
+<header class="banner">
+  <h1>The Goolz Society</h1>
+  <div class="sub">Est. 1893 &middot; A Field Society for the Study of Little Green Goolz</div>
+</header>
+
+<pre class="ascii big">
+                       .--.
+                      /    \
+                     | -- -- |
+                      \  o  /
+                       \___/
+                  not where it should be
+</pre>
+
+<nav class="top">
+  [ <a href="/">home</a> ]
+</nav>
+
+<h2>404 &mdash; the page is unaccounted for.</h2>
+
+<p>
+  The caretaker has searched the index, the back garden, and the
+  underside of the writing desk. The page you requested is not on the
+  Society's premises &mdash; or, if it is, it has wandered off and
+  declined to leave a note.
+</p>
+
+<p>
+  This is, regrettably, common. Goolz are known to misplace their
+  paperwork. The Society apologizes on their behalf.
+</p>
+
+<hr style="border:0;border-top:1px dashed var(--ink);margin:22px 0">
+
+<p><strong>Suggested actions:</strong></p>
+<ul class="plain">
+  <li>return to the <a href="/">landing page</a></li>
+  <li>go back the way you came (<code>Alt + &larr;</code>)</li>
+  <li>file a sighting if the page reappears</li>
+</ul>
+
+<pre class="ascii" style="margin-top:28px;font-size:11px;color:var(--ink-2)">
+        ┌──────────────────────────────────────┐
+        │  HTTP 404 · the page is not extant   │
+        │  reported · noted · we move on       │
+        └──────────────────────────────────────┘
+</pre>
+
+<footer>
+  <a href="/">&larr; back to the Society</a> &middot; gool kindly
+</footer>
+
+</body>
+</html>
