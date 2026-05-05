@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>404 — command not found</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23000'/><text x='2' y='12' font-family='monospace' font-size='10' fill='%2333ff66'>$_</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:    #0a0e0a;
+  --fg:    #33ff66;
+  --dim:   #1f8a3f;
+  --warn:  #ffd86b;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'VT323', 'Courier New', monospace;
+  font-size: 22px;
+  line-height: 1.3;
+  overflow: hidden;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  padding: 4vmin;
+}
+
+.term {
+  width: min(820px, 96vw);
+  padding: 28px 36px 36px;
+  white-space: pre;
+}
+
+.prompt::before { content: "$ "; color: var(--dim); }
+.err            { color: var(--warn); }
+
+.box {
+  margin: 18px 0;
+  color: var(--fg);
+}
+
+.cursor {
+  display: inline-block;
+  width: 0.55em;
+  background: var(--fg);
+  color: var(--fg);
+  animation: blink 1.05s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+a.home {
+  color: var(--fg);
+  text-decoration: none;
+  border-bottom: 1px dashed var(--dim);
+}
+a.home:hover { background: var(--fg); color: var(--bg); border-bottom-color: var(--fg); }
+
+@media (max-width: 540px) {
+  .term { font-size: 16px; padding: 16px 14px; }
+}
+</style>
+</head>
+<body>
+
+<pre class="term" aria-label="Terminal session showing a 404 not found error">
+<span class="prompt">cd /the-page-you-were-looking-for</span>
+<span class="err">-bash: cd: /the-page-you-were-looking-for: No such file or directory</span>
+
+<span class="box">+--------------------------------------------------+
+|                                                  |
+|              E R R O R   4 0 4                   |
+|                                                  |
+|         the requested path is not in tree        |
+|                                                  |
++--------------------------------------------------+</span>
+
+<span class="prompt">ls /</span>
+home  about  blog  contact  feed.xml
+
+<span class="prompt">cd <a class="home" href="/">/home</a></span><span class="cursor">&nbsp;</span>
+</pre>
+
+</body>
+</html>

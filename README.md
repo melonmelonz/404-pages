@@ -12,6 +12,9 @@ Each file is single-file, zero-build HTML — pixel art is inline SVG, animation
 | [`snorlax.html`](./snorlax.html) | Top-down route. Sleeping creature blocks the path. Breathing animation, drifting Z particles, swaying grass, "!" bubble. |
 | [`rocket.html`](./rocket.html) | Starry night over a city skyline. Two silhouettes blasting off diagonally toward a sparkle ding. Parallax stars. |
 | [`lavender.html`](./lavender.html) | Quiet haunted tower. Translucent ghost bobbing and fading, blinking windows, drifting music notes, echoing 404. |
+| [`terminal.html`](./terminal.html) | Green-phosphor terminal. `cd /the-page` returns "No such file or directory," ASCII error box, blinking cursor on `cd /home`. |
+| [`tombstone.html`](./tombstone.html) | Aged paper. ASCII tombstone with epitaph "born: ?, found: never." Special Elite typewriter font. |
+| [`shrug.html`](./shrug.html) | Pure minimalism. Big `¯\_(ツ)_/¯`, "404", and one line: "we looked. it's not here. could be anywhere." |
 | [`goolz-society.html`](./goolz-society.html) | Quiet Victorian field-society 404. Paper background, ASCII art, no JS. The original. |
 | [`next-chapter-bsod.html`](./next-chapter-bsod.html) | Authentic Win9x BSOD. Backspace=back, Enter=home, blinking cursor. |
 

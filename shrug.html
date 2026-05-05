@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>404 — ¯\_(ツ)_/¯</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23faf8f4'/><text x='2' y='12' font-family='monospace' font-size='9' fill='%231a1a1a'>(ツ)</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:   #faf8f4;
+  --fg:   #1a1a1a;
+  --dim:  #8a8680;
+  --rule: #d8d4cc;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'JetBrains Mono', 'Menlo', 'Courier New', monospace;
+  overflow: hidden;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  padding: 4vmin;
+}
+
+.center {
+  text-align: center;
+  display: grid;
+  gap: 38px;
+  justify-items: center;
+}
+
+.shrug {
+  font-size: clamp(40px, 9vmin, 96px);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  white-space: pre;
+}
+
+.code {
+  font-size: clamp(14px, 1.6vmin, 18px);
+  color: var(--dim);
+  letter-spacing: 6px;
+  font-weight: 300;
+}
+
+.msg {
+  font-size: clamp(13px, 1.5vmin, 16px);
+  color: var(--fg);
+  letter-spacing: 0.5px;
+  font-weight: 300;
+  max-width: 32ch;
+  line-height: 1.6;
+}
+
+.rule {
+  width: 60px;
+  height: 1px;
+  background: var(--rule);
+}
+
+a.home {
+  font-size: clamp(12px, 1.4vmin, 14px);
+  color: var(--fg);
+  text-decoration: none;
+  letter-spacing: 4px;
+  font-weight: 500;
+  border-bottom: 1px solid var(--fg);
+  padding-bottom: 4px;
+  text-transform: uppercase;
+}
+a.home:hover { background: var(--fg); color: var(--bg); }
+</style>
+</head>
+<body>
+
+<div class="center">
+  <div class="shrug" aria-label="Shrug">¯\_(ツ)_/¯</div>
+  <div class="code">404</div>
+  <div class="rule"></div>
+  <div class="msg">we looked. it's not here. could be anywhere.</div>
+  <a class="home" href="/">go home</a>
+</div>
+
+</body>
+</html>

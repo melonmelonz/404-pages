@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>404 — here lies the page</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23f3ecd6'/><path d='M5 3h6v9H5z' fill='%233a3026'/><text x='6' y='9' font-family='serif' font-size='4' fill='%23f3ecd6'>RIP</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --paper:   #f3ecd6;
+  --paper-2: #e9dfc1;
+  --ink:     #3a3026;
+  --ink-2:   #6b5d49;
+  --rule:    #b8a880;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Special Elite', 'Courier New', monospace;
+  font-size: 18px;
+  line-height: 1.35;
+  overflow: hidden;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  padding: 4vmin;
+}
+
+.yard {
+  text-align: center;
+}
+
+pre {
+  font-family: inherit;
+  white-space: pre;
+  display: inline-block;
+  text-align: left;
+  color: var(--ink);
+  margin: 0 auto;
+}
+
+.epitaph {
+  margin-top: 28px;
+  color: var(--ink-2);
+  font-size: 16px;
+  letter-spacing: 1px;
+  max-width: 460px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.epitaph hr {
+  border: 0;
+  border-top: 1px dashed var(--rule);
+  margin: 18px auto;
+  width: 60%;
+}
+
+a.home {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--ink);
+  padding-bottom: 1px;
+}
+a.home:hover { background: var(--ink); color: var(--paper); }
+
+@media (max-width: 540px) {
+  pre { font-size: 13px; }
+  .epitaph { font-size: 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="yard">
+
+<pre aria-label="ASCII tombstone">
+            _________________
+          /                   \
+         /         R.I.P        \
+        /                         \
+       /                           \
+       |                           |
+       |     here lies the page    |
+       |     you were looking for  |
+       |                           |
+       |          - - - -          |
+       |                           |
+       |           4 0 4           |
+       |                           |
+       |    born:  ?               |
+       |    found: never           |
+       |                           |
+   ____|___________________________|____
+  /////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+   ^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v^v
+</pre>
+
+  <div class="epitaph">
+    a quiet plot in the cemetery of broken links.
+    <hr>
+    <a class="home" href="/">return to the living</a>
+  </div>
+
+</div>
+
+</body>
+</html>
