@@ -16,7 +16,7 @@ Each file is single-file, zero-build HTML — pixel art is inline SVG, animation
 | [`tombstone.html`](./tombstone.html) | Aged paper. ASCII tombstone with epitaph "born: ?, found: never." Special Elite typewriter font. |
 | [`shrug.html`](./shrug.html) | Pure minimalism. Big `¯\_(ツ)_/¯`, "404", and one line: "we looked. it's not here. could be anywhere." |
 | [`goolz-society.html`](./goolz-society.html) | Quiet Victorian field-society 404. Paper background, ASCII art, no JS. The original. |
-| [`next-chapter-bsod.html`](./next-chapter-bsod.html) | Authentic Win9x BSOD. Backspace=back, Enter=home, blinking cursor. |
+| [`win9x-bsod.html`](./win9x-bsod.html) | Authentic Win9x BSOD. Backspace=back, Enter=home, blinking cursor. |
 
 A live gallery is in [`index.html`](./index.html).
 
